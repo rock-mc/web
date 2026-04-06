@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>磐石伺服器 | Rock MC</title>
+  <meta name="description" content="磐石伺服器 - Java & Bedrock 1.21.4 原味生存 Minecraft 伺服器">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-icon">&#9674;</span> 磐石伺服器
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#about">關於我們</a></li>
+        <li><a href="#join">如何加入</a></li>
+        <li><a href="#features">玩家須知</a></li>
+        <li><a href="#rules">伺服器規範</a></li>
+        <li><a href="#store">磐石商城</a></li>
+        <li><a href="#devops">技術架構</a></li>
+        <li><a href="#history">歷史沿革</a></li>
+        <li><a href="#faq">常見問題</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="hero-title-main">磐石伺服器</span>
+        <span class="hero-title-sub">ROCK MC SERVER</span>
+      </h1>
+      <p class="hero-tagline">原味。生存。面試制</p>
+      <p class="hero-desc">Java & Bedrock 1.21.4 原味生存伺服器<br>由專業軟體工程師維護，提供長期、穩定、流暢的遊戲體驗</p>
+      <div class="hero-actions">
+        <a href="#join" class="btn btn-primary">加入伺服器</a>
+        <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener" class="btn btn-secondary">Discord 社群</a>
+      </div>
+      <div class="hero-server-info">
+        <div class="server-ip" onclick="copyIP('minecraft.rock-mc.com')">
+          <span class="ip-label">Java</span>
+          <code>minecraft.rock-mc.com</code>
+          <span class="copy-hint">點擊複製</span>
+        </div>
+        <div class="server-ip" onclick="copyIP('bedrock.rock-mc.com:19132')">
+          <span class="ip-label">Bedrock</span>
+          <code>bedrock.rock-mc.com:19132</code>
+          <span class="copy-hint">點擊複製</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <a href="#about"><span></span></a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="section-title">關於磐石</h2>
+      <p class="section-subtitle">自 2021 年起，為你打造最純粹的生存體驗</p>
+      <div class="about-intro">
+        <p>提供玩家一個長期、穩定、流暢的伺服器。目前由專業軟體工程師鎮守，務求提供優質的環境。</p>
+        <p>我們專注在維持穩定流暢的遊玩環境以及友善的氣氛。盡可能使用最少的插件，有新版本的時候可以用最快的速度升級。</p>
+        <p>如果你對於伺服器的品質有要求，也想要一個友善的社群，誠摯邀請你加入我們。</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon">&#9881;</div>
+          <h3>極簡插件</h3>
+          <p>堅持原味生存，盡可能使用最少的插件，有新版本的時候可以用最快的速度升級，保留 Minecraft 最純粹的遊戲體驗。</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">&#9889;</div>
+          <h3>快速更新</h3>
+          <p>緊跟 Minecraft 版本更新，讓你第一時間體驗最新內容，目前支援 Java & Bedrock 1.21.4。</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">&#9829;</div>
+          <h3>友善社群</h3>
+          <p>面試制入伺確保社群品質，打造友善、互助的遊戲環境。我們專注在維持穩定流暢的遊玩環境以及友善的氣氛。</p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">&#9731;</div>
+          <h3>穩定運行</h3>
+          <p>專業軟體工程師維護，自動備份、即時監控、UPS 不斷電系統，保障你的每一份心血。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join -->
+  <section class="section section-alt" id="join">
+    <div class="container">
+      <h2 class="section-title">如何成為小石頭</h2>
+      <p class="section-subtitle">通過面試，加入磐石大家庭</p>
+      <div class="join-intro">
+        <blockquote>在你的前方有一個深邃的礦坑，這是一條加入磐石伺服器的路，看起來危險而陡峭，你只能相信路途終會變得光明順遂。<br>你確定要加入我們嗎？</blockquote>
+        <p>請先閱讀磐石律法並同意每一條規則呦。</p>
+      </div>
+
+      <h3 class="subsection-title">面試制</h3>
+      <p class="subsection-desc">磐石伺服器採用驗證碼門禁系統，使用自家工程師開發的 <a href="https://github.com/rock-mc/Syn" target="_blank" rel="noopener">Syn</a> 工具。</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>加入 Discord</h3>
+            <p>前往我們的 <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener">Discord 伺服器</a>，這是一切的起點。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>填寫表單</h3>
+            <p>至 Discord 新人頻道填寫表單。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>點選面試窗口</h3>
+            <p>點選新人面試窗口，靜待小幫手面試。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h3>參加面試</h3>
+            <p>管理群一起面試。面試時請注意，你的 ID、大頭貼、簡介、說的任何話甚至態度都會決定面試的結果。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">05</div>
+          <div class="step-content">
+            <h3>取得驗證碼</h3>
+            <p>通過後取得驗證碼，輸入驗證碼並按勾勾確認，請妥善保存。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="join-note join-note-warning">
+        <p>連續標記 @小幫手 或私訊小幫手催促者，不予面試。</p>
+      </div>
+
+      <h3 class="subsection-title">開始遊戲</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>新增多人遊戲伺服器</h3>
+            <p>在 Minecraft 中選擇多人遊戲，新增伺服器。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>輸入伺服器位址</h3>
+            <p><strong>Java 版：</strong><code>minecraft.rock-mc.com</code><br>
+               <strong>Bedrock 版：</strong><code>bedrock.rock-mc.com</code>，埠號 <code>19132</code></p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>進入伺服器並驗證</h3>
+            <p>進入後暫時無法移動與聊天，請輸入驗證指令：<code>/syn verify 你的驗證碼</code></p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h3>綁定 Discord（選用）</h3>
+            <p>在遊戲中輸入 <code>/discord link</code> 取得驗證碼，提交至磐石機器人完成綁定，可取得更多權限。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="join-note">
+        <p><strong>注意：</strong>需要正版 Minecraft 帳號，伺服器會進行帳號驗證。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features / Player Guide -->
+  <section class="section" id="features">
+    <div class="container">
+      <h2 class="section-title">小石頭須知</h2>
+      <p class="section-subtitle">入伺後你需要知道的一切</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>&#127760; 出生點保護區</h3>
+          <p>伺服器設置了半徑約 1000 格的保護區，以維持原始地貌，避免資深玩家在出生點附近佔用資源。玩家需跑到保護區外才可以破壞方塊，也可使用隨機傳送功能選擇起點。</p>
+        </div>
+        <div class="feature-card">
+          <h3>&#128279; Discord 綁定</h3>
+          <p>在遊戲中執行 <code>/discord link</code> 取得驗證碼，提交至磐石機器人即可完成綁定，取得更多權限。</p>
+        </div>
+        <div class="feature-card">
+          <h3>&#128101; 邀請好友</h3>
+          <p>已入伺的玩家可以提供 Discord 連結邀請朋友，有填寫朋友 ID 或暱稱可以透過認識加速管理面試流程。</p>
+        </div>
+        <div class="feature-card">
+          <h3>&#128270; 方塊紀錄查詢</h3>
+          <p>使用 <code>/co i</code> 開啟查詢模式，檢查可疑的破壞或盜竊行為，截圖給管理員。查詢過後記得還要再一次 <code>/co i</code> 關閉查詢功能。</p>
+        </div>
+      </div>
+
+      <h3 class="commands-title">指令系統</h3>
+      <div class="commands-table">
+        <table>
+          <thead>
+            <tr><th>指令</th><th>功能</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>/warp spawn</code></td><td>回到出生點</td></tr>
+            <tr><td colspan="2" class="command-category">傳送系統（冷卻 5 分鐘，與 home 共用）</td></tr>
+            <tr><td><code>/tpa &lt;玩家ID&gt;</code></td><td>請求傳送至其他玩家</td></tr>
+            <tr><td><code>/tpaccept &lt;玩家ID&gt;</code></td><td>同意傳送請求</td></tr>
+            <tr><td><code>/tpdeny</code></td><td>拒絕傳送請求</td></tr>
+            <tr><td><code>/tptoggle &lt;玩家ID&gt;</code></td><td>開關特定玩家的傳送權限</td></tr>
+            <tr><td colspan="2" class="command-category">據點系統（最多 3 個傳送點）</td></tr>
+            <tr><td><code>/sethome [名稱]</code></td><td>設置回家點</td></tr>
+            <tr><td><code>/home [名稱]</code></td><td>傳送至設置的回家點</td></tr>
+            <tr><td><code>/delhome [名稱]</code></td><td>刪除回家點</td></tr>
+            <tr><td colspan="2" class="command-category">告示牌上鎖系統</td></tr>
+            <tr><td><code>/blocklocker &lt;行數&gt; &lt;參數&gt;</code></td><td>鎖定箱子、熔爐、門等容器</td></tr>
+            <tr><td><code>/bl &lt;行數&gt; &lt;參數&gt;</code></td><td>簡寫，功能同上</td></tr>
+            <tr><td colspan="2" class="command-detail">可用參數：玩家ID、<code>[timer:秒數]</code>、<code>[everyone]</code>、<code>[Redstone]</code></td></tr>
+            <tr><td colspan="2" class="command-category">其他</td></tr>
+            <tr><td><code>/co i</code> 或 <code>/core inspect</code></td><td>開關方塊查詢模式</td></tr>
+            <tr><td><code>/fly</code></td><td>開關飛行模式（需於商城購買）</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rules -->
+  <section class="section section-alt" id="rules">
+    <div class="container">
+      <h2 class="section-title">磐石律法</h2>
+      <p class="section-subtitle">維護和諧社群的基本規範</p>
+      <div class="rules-preamble">
+        <p>做任何決定前，應先設身處地、將心比心為其他人著想。請勿謠傳錯誤規定或扭曲釋義。如有任何重大情事，不排除以刑法第359條或其餘相關條例提告。若對新發布或既定規定有發現錯誤或異議者，請至意見信箱申訴或回覆，請勿私訊管理員。</p>
+      </div>
+      <div class="rules-grid">
+
+        <div class="rule-card rule-interview">
+          <h3>&#128220; 一、面試</h3>
+          <p class="rule-desc">進入伺服器前，請先經過管理員文字面試審核，為的是保障已在伺服器內的玩家安寧舒適的空間，希望面試者可以好好看規則，填妥問卷後耐心等待。面試審核著重綜合表現，無固定標準分數。</p>
+          <ul>
+            <li>1-1 對話態度或用詞不佳者不予錄用</li>
+            <li>1-2 不雅名稱、簡介及頭像（含遊戲ID、Discord 暱稱/ID、Skin）者不予錄用</li>
+            <li>1-3 催促管理員者不予錄用（私訊問題應用意見信箱）</li>
+          </ul>
+        </div>
+
+        <div class="rule-card rule-report">
+          <h3>&#128221; 二、檢舉</h3>
+          <p class="rule-desc">若在伺服器遇到玩家不當行為，可以採取檢舉途徑，於 Discord 的常駐資訊內有檢舉表單可填寫，但勿故意引起事端，玩家之間的爭執請盡量於檢舉前互相協調。官方一般不會但視嚴重性介入，若官方介入下，據了解後可能得以雙方皆懲處。當然若管理者濫用職權或行為不當也請向伺服主私訊回報。開庭採公開方式。</p>
+          <ul>
+            <li>2-1 期限：追溯期限為檢舉日至上上個月同日 00:00 之後</li>
+            <li>2-2 責任：保護個人帳號安全是個人的責任，被盜帳號、被親友使用造成的犯罪行為係屬角色為主，若說詞為他人使用，例無寬貸</li>
+            <li>2-3 誣告：若查無不法，因誣告，檢舉人須道歉及 14 天刑期。未道歉者或若經查證屬累犯則踢出伺服器</li>
+          </ul>
+        </div>
+
+        <div class="rule-card rule-ownership">
+          <h3>&#128274; 三、所有權</h3>
+          <p class="rule-desc"><strong>物品：</strong></p>
+          <ul>
+            <li>3-1-1 容器內物品以放置者為主</li>
+            <li>3-1-2 盔甲座/展示框上之物品同上</li>
+            <li>3-1-3 受刑/受審中不可動他人物品；被踢出者物品歸官方</li>
+          </ul>
+          <p class="rule-desc"><strong>建築：</strong></p>
+          <ul>
+            <li>3-2-1 公設屬官方，建築者保有修改權</li>
+            <li>3-2-2 共同建築優先序：先建者 > 紅石/傳送門 > 大量建築者</li>
+            <li>3-2-3 私人建築距他人 500 格以上</li>
+            <li>3-2-4 被踢出者建築可詢官方取用</li>
+            <li>3-2-5 受刑/受審中不可動他人建築</li>
+          </ul>
+          <p class="rule-desc"><strong>生物：</strong></p>
+          <ul>
+            <li>3-3-1 私人範圍內（牽繩/船/礦車/圍欄/建築內）之生物歸所有者</li>
+          </ul>
+        </div>
+
+        <div class="rule-card rule-severe">
+          <h3>&#9888; 四、重大情節</h3>
+          <p class="rule-desc">下列行為為重大犯行：</p>
+          <ul>
+            <li>4-1 使用不當外掛（飛行、透視、自動挖礦/釣魚/刷怪等）— 直接踢出，免審</li>
+            <li>4-2 利用漏洞取得不符規定物件 — 銷毀 + 一週刑期；再犯可踢出；已交易併詐騙踢出</li>
+            <li>4-3 竊取或毀損物品（須自行鎖箱）：冒名改告示牌 = 詐騙｜殺人撿物 = 竊取｜直接/間接毀損 = 毀損。初犯歸還 + 道歉 + 警告；累犯可踢出</li>
+            <li>4-4 詐騙行為（冒用身分、交易詐騙、誘拐、誘導偷竊）— 管理員判斷是否踢出，免審</li>
+            <li>4-5 擅改他人作品 — 輕微：方塊數 × 6 小時刑期；嚴重（紅石/音階）：踢出</li>
+          </ul>
+        </div>
+
+        <div class="rule-card rule-conduct">
+          <h3>&#128172; 五、言行舉止</h3>
+          <ul>
+            <li>5-1 不當言論（髒話/歧視/貶低/仇恨/地獄梗/騷擾/釣魚等）：言論自由應建立在不讓他人不自在、不舒服為前提之下，為維護良善聊天環境，請勿於公開聊天頻道洗頻或口無遮攔。洗頻 → 警告 + 禁言 1hr，二次禁言 1 天｜非針對性 → 警告 + 禁言 1hr，二次字數 × 2hr（強辯者字數 × 天數）｜針對性 → 需道歉，不道歉/累犯可踢出｜歧視性 → 可直接踢出</li>
+            <li>5-2 不雅名稱、頭像、簡介、造型或冒用原創 Skin：任何出現在伺服器的事物，請勿違反社會善良風俗、造成他人反感或不適 — 禁遊戲 + 禁言，24hr 未改可踢出</li>
+            <li>5-3 未經對方同意 PVP、殺戮：包含但不限於打死、炸死、淹死、燒死等（若擅闖他人領域誤觸陷阱不在此範圍內）— 道歉 + 1 天刑期；累犯可踢出</li>
+            <li>5-4 行為騷擾：明顯影響其他玩家的騷擾行為，包含跟蹤、重複發送指令予其他玩家、未經同意對其使用紅石、液體方塊等方式惡作劇等 — 道歉 + 1 天刑期；累犯可踢出</li>
+            <li>5-5 協力犯罪：助長或協力犯罪者與犯罪者同罪論。使用小號轉移或是利用小號轉移給本帳者，經查證論同罪處理</li>
+          </ul>
+        </div>
+
+        <div class="rule-card rule-creature">
+          <h3>&#128062; 六、生物保護</h3>
+          <ul>
+            <li>6-1 無限制自動/手動繁殖大量生物：如利用機關或特性無限制產生之生物（包含村民、敵對生物），大量且密集集中，可能因生物大量碰撞造成伺服器負擔 — 警告 + 1 日改善；逾期撲殺 + 關繁殖（不補償）；二次 12hr 刑期，往後 ×12hr 遞增</li>
+            <li>6-2 殺戮玩家擁有生物：玩家擁有生物範圍指玩家圈養生物（牽繩、船、礦車、圍欄、建築內、圍牆內、明顯範圍內等）— 非故意警告 + 復原；刻意/累犯可踢出。命名生物可請管理員復活（無意義命名/待宰除外）</li>
+          </ul>
+        </div>
+
+        <div class="rule-card rule-court">
+          <h3>&#9878; 七、法院罰則</h3>
+          <p class="rule-desc">若於開庭中有以下情節，則得以開罰（陳述過程中用詞不算）：</p>
+          <ul>
+            <li>7-1 對任一方（含審判方）口出惡言、人身攻擊及類似之行為 — 字數 × 2 天</li>
+            <li>7-2 被檢舉人不承認犯行，但經查詢後發現被檢舉人說謊時 — 14 天</li>
+            <li>7-3 同理，若被檢舉人不承認犯行時，經查詢發現檢舉人說謊時 — 14 天</li>
+            <li>7-4 就事論事，勿翻舊帳或答非所問 — 警告 2 次後每次 +1 天</li>
+            <li>7-5 若被檢舉人未到案說明或無意討論（如無意義回答及洗頻）— 直接處分不得抗告</li>
+            <li>7-6 如檢舉人/被檢舉人無故 24 小時內無加入討論 — 雙方可罰 14 天</li>
+          </ul>
+        </div>
+
+        <div class="rule-card rule-prisoner">
+          <h3>&#9961; 八、受刑人權益</h3>
+          <ul>
+            <li>8-1 受刑期間物品由伺服器保管，不得取用</li>
+            <li>8-2 受刑人放置於他人箱子之物品歸箱主</li>
+            <li>8-3 擅取受刑者物品 = 竊盜，直接裁罰</li>
+            <li>8-4 受刑期間私人設施關閉</li>
+            <li>8-5 刑滿一月未回 → 官方處置；被踢出 → 建築視情況開放或還原</li>
+            <li>8-6 受刑人公設收歸伺服器</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 磐石建築法 -->
+      <h2 class="section-title section-title-sub">磐石建築法</h2>
+      <p class="section-subtitle">以下違反懲罰統一為：警告 + 1 日改善 → 逾期拆除 + 12hr 刑期 → 往後 ×12hr 遞增</p>
+      <div class="rules-grid">
+        <div class="rule-card rule-building">
+          <h3>&#127975; 一、玩家建築</h3>
+          <ul>
+            <li>1-1 建築距離：為維護伺服器美觀，避免過度開發的視覺及無力感，建築請距離他人建築 500 格以上，並維持兩者建築間之自然地貌。請勿用簡易建築（豆腐屋、直線光源、置物箱或簡易裝飾物）圈大片土地。協調後可縮短距離。檢舉需於建造一週內提出</li>
+            <li>1-2 公共空間：請勿佔用明顯極少數空間為私用。如終界傳送門入口及出口處、終界折躍門、終界龍祭壇附近空間</li>
+            <li>1-3 禁止水面路徑，請以坐船方式航行；若有長期需求，請自行於水面上修建橋梁，以維持美觀與船隻航行方便為主</li>
+            <li>1-4 違反善良風俗之外型或隱喻性建築物</li>
+            <li>1-5 影響伺服器運行之機關：此類機關包含但不限於大量機關同時運作、巨型紅石、大量生怪塔等造成伺服器負擔之機關</li>
+            <li>1-6 請勿使用無法調整時間的連閃器（指無法調整時間延遲，由 NOT 閘構成的閃爍器），請多使用中繼器增加時間延遲並加上開關的閃爍器，不使用時可以關閉</li>
+          </ul>
+        </div>
+
+        <div class="rule-card rule-public">
+          <h3>&#127963; 二、公共建築</h3>
+          <p class="rule-desc"><strong>玩家公共設施公有化：</strong></p>
+          <ul>
+            <li>玩家按照官方提供之申請表格，針對公共設施資格提出申請</li>
+            <li>通過官方審核並給予認證標章，即擁有公共設施資格及官方保護</li>
+            <li>在設施認證為公設的狀況下，若伺服器有轉移需求時，公設可不在個人額度內，惟公設申請移轉後，新的移轉地點需由申請人在期限內自行尋找</li>
+            <li>每位玩家都能幫忙監督是否有人破壞公共設施，若發現破壞之情事，可至意見信箱通報管理員</li>
+            <li>若出現公設破壞之情事，官方可直接依服規裁罰，無需開庭</li>
+            <li>原建造者仍可保有修正或新增功能之權力</li>
+          </ul>
+          <p class="rule-desc"><strong>公設認定標準及門檻：</strong></p>
+          <ul>
+            <li>不可限定使用者，應開放予全體玩家使用</li>
+            <li>若有搬移需求時，搬移物件內不含動物/生怪磚/村民（例：羊毛機、皮革塔、鐵人塔）</li>
+            <li>需依靠特定生態域所產生的特定資源，或不需特定生態域但能產出限定且較稀有資源（例：自動紫水晶機）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rules-footer">
+        <p>所有規則將視情況補充調整。違反者，將由幹部群視違反程度決定罰則內容。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Store -->
+  <section class="section" id="store">
+    <div class="container">
+      <h2 class="section-title">磐石商城</h2>
+      <p class="section-subtitle">使用磐石幣購買遊戲內物品（1 NTD = 1 磐石幣）</p>
+
+      <div class="store-disclaimer">
+        <h4>使用者宣告</h4>
+        <ul>
+          <li>使用磐石商城即代表您已閱讀並同意遵守磐石伺服器的所有規則</li>
+          <li>未滿 18 歲者需經監護人同意</li>
+          <li>虛擬道具一經售出，不提供退款、退貨或換貨服務</li>
+          <li>請妥善保護您的帳號安全</li>
+          <li>因遊戲更新或伺服器調整造成的影響，恕不負責</li>
+        </ul>
+      </div>
+
+      <div class="store-grid">
+        <div class="store-category">
+          <h3>&#10024; 特殊道具</h3>
+          <div class="store-items">
+            <div class="store-item"><span>透明展示框 x8</span><span class="price">50 幣</span></div>
+            <div class="store-item"><span>個人頭顱 x1</span><span class="price">200 幣</span></div>
+          </div>
+        </div>
+        <div class="store-category">
+          <h3>&#9935; 建築材料</h3>
+          <div class="store-items">
+            <div class="store-item"><span>鐵錠 x1組</span><span class="price">30 幣</span></div>
+            <div class="store-item"><span>黃金錠 x1組</span><span class="price">50 幣</span></div>
+            <div class="store-item"><span>紅石粉 x1組</span><span class="price">50 幣</span></div>
+            <div class="store-item"><span>鑽石 x1組</span><span class="price">200 幣</span></div>
+            <div class="store-item"><span>獄髓錠 x1</span><span class="price">100 幣</span></div>
+          </div>
+        </div>
+        <div class="store-category">
+          <h3>&#128142; 稀有道具</h3>
+          <div class="store-items">
+            <div class="store-item"><span>終界水晶 x20</span><span class="price">100 幣</span></div>
+            <div class="store-item"><span>鞘翅 x1</span><span class="price">200 幣</span></div>
+            <div class="store-item"><span>鞘翅（保護IV+修補+耐久III）x1</span><span class="price">300 幣</span></div>
+            <div class="store-item"><span>煙火 x3組</span><span class="price">10 幣</span></div>
+            <div class="store-item"><span>重鎚 x1</span><span class="price">300 幣</span></div>
+          </div>
+        </div>
+        <div class="store-category">
+          <h3>&#127866; 經驗值</h3>
+          <div class="store-items">
+            <div class="store-item"><span>附魔之瓶 x1組</span><span class="price">100 幣</span></div>
+          </div>
+        </div>
+        <div class="store-category">
+          <h3>&#128062; 寵物</h3>
+          <div class="store-items">
+            <div class="store-item"><span>藍色六角恐龍 x1</span><span class="price">200 幣</span></div>
+            <div class="store-item"><span>山貓 x1</span><span class="price">200 幣</span></div>
+            <div class="store-item"><span>遠古乕衛兵 x1</span><span class="price">300 幣</span></div>
+            <div class="store-item"><span>乕界幽靈 x1</span><span class="price">300 幣</span></div>
+          </div>
+        </div>
+        <div class="store-category">
+          <h3>&#127912; 個人化</h3>
+          <div class="store-items">
+            <div class="store-item"><span>自訂暱稱</span><span class="price">100 幣/次</span></div>
+            <div class="store-item"><span>自訂進場訊息</span><span class="price">100 幣/次</span></div>
+          </div>
+        </div>
+        <div class="store-category">
+          <h3>&#128640; 飛行權限</h3>
+          <div class="store-items">
+            <div class="store-item"><span>1 天</span><span class="price">50 幣</span></div>
+            <div class="store-item"><span>3 天</span><span class="price">100 幣</span></div>
+            <div class="store-item"><span>10 天</span><span class="price">200 幣</span></div>
+            <div class="store-item"><span>20 天</span><span class="price">300 幣</span></div>
+            <div class="store-item"><span>40 天</span><span class="price">500 幣</span></div>
+          </div>
+        </div>
+        <div class="store-category">
+          <h3>&#127968; Home 傳送點</h3>
+          <div class="store-items">
+            <div class="store-item"><span>+1 個傳送點</span><span class="price">100 幣</span></div>
+            <div class="store-item"><span>+2 個傳送點</span><span class="price">180 幣</span></div>
+            <div class="store-item"><span>+4 個傳送點</span><span class="price">350 幣</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="commands-title">磐石幣加贈方案</h3>
+      <div class="commands-table">
+        <table>
+          <thead>
+            <tr><th>儲值金額 (NTD)</th><th>獲得磐石幣</th><th>加贈</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>20 ~ 100</td><td>20 ~ 100</td><td>—</td></tr>
+            <tr><td>300</td><td>315</td><td>+5%</td></tr>
+            <tr><td>500</td><td>550</td><td>+10%</td></tr>
+            <tr><td>1,000</td><td>1,150</td><td>+15%</td></tr>
+            <tr><td>3,000</td><td>3,600</td><td>+20%</td></tr>
+            <tr><td>5,000</td><td>6,250</td><td>+25%</td></tr>
+            <tr><td>10,000</td><td>13,000</td><td>+30%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="store-note">支援 Line Pay 及 PayPal 付款。</p>
+    </div>
+  </section>
+
+  <!-- DevOps -->
+  <section class="section section-alt" id="devops">
+    <div class="container">
+      <h2 class="section-title">磐石機器</h2>
+      <p class="section-subtitle">Infra & Dev & Ops — 這裡介紹磐石伺服器使用的設備與一些工具</p>
+      <div class="devops-grid">
+        <div class="devops-card">
+          <h3>&#128187; 伺服器硬體</h3>
+          <ul>
+            <li><strong>處理器：</strong>Intel i5-12400</li>
+            <li><strong>記憶體：</strong>32GB RAM</li>
+            <li><strong>硬碟：</strong>1TB SSD</li>
+            <li><strong>備份：</strong>2TB HDD，每天自動備份，一週兩次備份至美國</li>
+            <li><strong>網路：</strong>500/500 Mb</li>
+            <li><strong>路由器：</strong>MikroTik RB450Gx4</li>
+            <li><strong>資料庫：</strong>MySQL（運行於 MSI Cubi N 8GL）</li>
+            <li><strong>UPS：</strong>APC Easy UPS BV1000-TW</li>
+          </ul>
+        </div>
+        <div class="devops-card">
+          <h3>&#128272; 驗證碼系統 — Syn</h3>
+          <p class="devops-desc">我們開發了一套插件，可以讓我們發出驗證碼給玩家。只有具備驗證碼的玩家才可以通過女神驗證系統進入伺服器。</p>
+          <p class="devops-link"><a href="https://github.com/rock-mc/Syn" target="_blank" rel="noopener">GitHub — rock-mc/Syn</a></p>
+        </div>
+        <div class="devops-card">
+          <h3>&#129302; 維運機器人 — OperationBot</h3>
+          <p class="devops-desc">我們在系統還有伺服器之間，開發了一套機器人來幫助我們維運伺服器，可以幫助我們自動化一些操作：</p>
+          <ul>
+            <li>Lag 時自動重啟伺服器</li>
+            <li>自動備份伺服器</li>
+            <li>伺服器意外關閉時，重新啟動伺服器</li>
+            <li>發送警告訊息到 Discord</li>
+            <li>自動更新 Paper 伺服器程式，自動測試完成之後，就會自動上線運作</li>
+            <li>斷電過後五分鐘，未恢復供電可自動關閉伺服器儲存地圖並關機</li>
+          </ul>
+          <p class="devops-link"><a href="https://github.com/rock-mc/OperationBot" target="_blank" rel="noopener">GitHub — rock-mc/OperationBot</a></p>
+        </div>
+        <div class="devops-card">
+          <h3>&#128200; Grafana 監控</h3>
+          <p class="devops-desc">我們也採用 Grafana 作為我們即時監測伺服器狀態的工具，涵蓋 Server 與 Database 的即時狀態監控。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- History -->
+  <section class="section" id="history">
+    <div class="container">
+      <h2 class="section-title">磐石歷史</h2>
+      <p class="section-subtitle">從一個想法到一個家</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2021.02.18</div>
+          <div class="timeline-content">
+            <h3>萌芽</h3>
+            <p>在網路上貼文徵求志同道合的夥伴。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.07.04</div>
+          <div class="timeline-content">
+            <h3>試營運</h3>
+            <p>開始試營運。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.10.06</div>
+          <div class="timeline-content">
+            <h3>雙十快閃</h3>
+            <p>舉辦雙十快閃尋寶活動。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.12.02</div>
+          <div class="timeline-content">
+            <h3>硬體危機</h3>
+            <p>伺服器硬體出問題，搬到遊戲主機跑。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.12.26</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.18.1。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.01.13</div>
+          <div class="timeline-content">
+            <h3>新伺服器上線</h3>
+            <p>新伺服器正式上線。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.01.31</div>
+          <div class="timeline-content">
+            <h3>除夕快閃</h3>
+            <p>舉辦除夕快閃活動。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.02.06</div>
+          <div class="timeline-content">
+            <h3>人數紀錄</h3>
+            <p>伺服器人數達 32 位玩家同時在線！</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.03.21</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.18.2。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.08.08</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.19.2。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2023.06.13</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.20.1。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2023.09.29</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.20.2。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2023.11.12</div>
+          <div class="timeline-content">
+            <h3>商城上線</h3>
+            <p>推出遊戲內商城系統。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024.02.04</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.20.4。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024.06.29</div>
+          <div class="timeline-content">
+            <h3>版本躍升</h3>
+            <p>升級伺服器版本至 1.21.4。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024.09.29</div>
+          <div class="timeline-content">
+            <h3>跨平台</h3>
+            <p>支援 Bedrock 版本，Java 與基岩版玩家可以一起遊玩。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-alt" id="faq">
+    <div class="container">
+      <h2 class="section-title">常見問題</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>請問可以給我 OP 嗎？</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>不可以。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            <span>請問可以給我種子碼嗎？</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>不可以，基本上磐石不會透露伺服器設定。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-info">
+          <h3><span class="logo-icon">&#9674;</span> 磐石伺服器</h3>
+          <p>原味。生存。面試制</p>
+          <p>Java & Bedrock 1.21.4</p>
+        </div>
+        <div class="footer-links">
+          <h4>快速連結</h4>
+          <ul>
+            <li><a href="#join">加入我們</a></li>
+            <li><a href="#rules">伺服器規範</a></li>
+            <li><a href="#store">磐石商城</a></li>
+            <li><a href="#faq">常見問題</a></li>
+          </ul>
+        </div>
+        <div class="footer-connect">
+          <h4>連線資訊</h4>
+          <p><code>minecraft.rock-mc.com</code></p>
+          <p><code>bedrock.rock-mc.com:19132</code></p>
+          <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener" class="footer-discord">加入 Discord</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 磐石伺服器 Rock MC Server. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
