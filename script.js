@@ -13,13 +13,67 @@ navToggle.addEventListener('click', () => {
   navToggle.classList.toggle('active');
 });
 
-// Close menu on link click
+// ===== Tab switching =====
+function switchTab(hash) {
+  const id = hash.replace('#', '');
+  // Hide all sections
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active-tab'));
+  // Show target section
+  const target = document.getElementById(id);
+  if (target && target.classList.contains('section')) {
+    target.classList.add('active-tab');
+  }
+  // Update active nav link
+  navMenu.querySelectorAll('a').forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + id) {
+      a.classList.add('active');
+    }
+  });
+  // Scroll to top of content area
+  window.scrollTo({ top: document.querySelector('.hero').offsetHeight, behavior: 'smooth' });
+}
+
+// Nav link clicks switch tabs
 navMenu.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#') && href !== '#hero') {
+      e.preventDefault();
+      switchTab(href);
+      history.replaceState(null, '', href);
+    }
     navMenu.classList.remove('open');
     navToggle.classList.remove('active');
   });
 });
+
+// Handle in-page links (e.g. hero buttons) that point to sections
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  if (navMenu.contains(link)) return; // already handled above
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+    if (href === '#hero') return; // let default scroll work
+    const target = document.getElementById(href.replace('#', ''));
+    if (target && target.classList.contains('section')) {
+      e.preventDefault();
+      switchTab(href);
+      history.replaceState(null, '', href);
+    }
+  });
+});
+
+// Activate tab from URL hash on load
+(function initTab() {
+  const hash = window.location.hash || '#about';
+  const id = hash.replace('#', '');
+  const target = document.getElementById(id);
+  if (target && target.classList.contains('section')) {
+    switchTab(hash);
+  } else {
+    switchTab('#about');
+  }
+})();
 
 // ===== Copy IP =====
 function copyIP(text) {
@@ -82,34 +136,30 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, observerOptions);
 
+const fadeInSelector = '.about-card, .step, .feature-card, .rule-card, .store-category, .devops-card, .timeline-item, .faq-item, .store-disclaimer, .join-intro, .about-intro, .rules-preamble, .team-card';
+
 // Apply fade-in to elements
-document.querySelectorAll(
-  '.about-card, .step, .feature-card, .rule-card, .store-category, .devops-card, .timeline-item, .faq-item, .store-disclaimer, .join-intro, .about-intro, .rules-preamble'
-).forEach(el => {
+document.querySelectorAll(fadeInSelector).forEach(el => {
   el.classList.add('fade-in');
   observer.observe(el);
 });
 
-// ===== Active nav link on scroll =====
-const sections = document.querySelectorAll('.section, .hero');
-const navLinks = document.querySelectorAll('.nav-menu a');
+// Re-observe fade-in elements when tab switches (hidden elements can't intersect)
+const origSwitchTab = switchTab;
+switchTab = function(hash) {
+  origSwitchTab(hash);
+  // Re-trigger observer for newly visible section
+  const id = hash.replace('#', '');
+  const section = document.getElementById(id);
+  if (section) {
+    section.querySelectorAll(fadeInSelector).forEach(el => {
+      observer.unobserve(el);
+      observer.observe(el);
+    });
+  }
+};
 
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const top = section.offsetTop - 100;
-    if (window.scrollY >= top) {
-      current = section.getAttribute('id');
-    }
-  });
-
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === '#' + current) {
-      link.classList.add('active');
-    }
-  });
-});
+// (Active nav link is now handled by switchTab)
 
 // ===== Particles =====
 (function initParticles() {
@@ -185,4 +235,48 @@ window.addEventListener('scroll', () => {
   window.addEventListener('resize', resize);
   init();
   animate();
+})();
+
+// ===== Team Skin Viewer (skinview3d) =====
+(function initTeamSkins() {
+  if (typeof skinview3d === 'undefined') return;
+
+  document.querySelectorAll('.team-skin').forEach(canvas => {
+    const username = canvas.dataset.skinUsername;
+    if (!username) return;
+
+    const viewer = new skinview3d.SkinViewer({
+      canvas: canvas,
+      width: 200,
+      height: 300,
+      skin: `https://mineskin.eu/skin/${username}`,
+    });
+
+    // Camera: show full body
+    viewer.camera.rotation.x = -0.1;
+    viewer.camera.rotation.y = 0;
+    viewer.camera.position.y = -2;
+    viewer.zoom = 0.85;
+
+    // Custom floating animation: idle + bobbing up/down + legs dangling
+    viewer.animation = new skinview3d.IdleAnimation();
+    viewer.animation.speed = 0.6;
+    viewer.playerObject.skin.leftLeg.rotation.x = 0.1;
+    viewer.playerObject.skin.rightLeg.rotation.x = -0.1;
+    const playerObj = viewer.playerObject;
+    const baseY = playerObj.position.y;
+    let floatTime = 0;
+    viewer.renderer.setAnimationLoop(() => {
+      floatTime += 0.02;
+      playerObj.position.y = baseY + Math.sin(floatTime) * 1.5;
+      viewer.render();
+    });
+
+    // Auto-rotate
+    viewer.autoRotate = true;
+    viewer.autoRotateSpeed = 1.0;
+
+    // Transparent background
+    viewer.renderer.setClearColor(0x000000, 0);
+  });
 })();
