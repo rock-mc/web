@@ -14,7 +14,7 @@ navToggle.addEventListener('click', () => {
 });
 
 // ===== Tab switching =====
-function switchTab(hash) {
+function switchTab(hash, scroll = true) {
   const id = hash.replace('#', '');
   // Hide all sections
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active-tab'));
@@ -31,7 +31,9 @@ function switchTab(hash) {
     }
   });
   // Scroll to top of content area
-  window.scrollTo({ top: document.querySelector('.hero').offsetHeight, behavior: 'smooth' });
+  if (scroll) {
+    window.scrollTo({ top: document.querySelector('.hero').offsetHeight, behavior: 'smooth' });
+  }
 }
 
 // Nav link clicks switch tabs
@@ -69,9 +71,9 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   const id = hash.replace('#', '');
   const target = document.getElementById(id);
   if (target && target.classList.contains('section')) {
-    switchTab(hash);
+    switchTab(hash, false);
   } else {
-    switchTab('#about');
+    switchTab('#about', false);
   }
 })();
 
