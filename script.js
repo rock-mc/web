@@ -181,14 +181,24 @@ switchTab = function(hash) {
     canvas.height = container.offsetHeight;
   }
 
+  const emberColors = [
+    [201, 160, 51],  // gold
+    [232, 85, 32],   // ember orange
+    [255, 215, 0],   // bright gold
+    [0, 212, 170],   // teal (rare, like diamond)
+    [204, 51, 51],   // crimson (rare, like redstone)
+  ];
+
   function createParticle() {
+    const color = emberColors[Math.random() < 0.7 ? Math.floor(Math.random() * 3) : Math.floor(Math.random() * 5)];
     return {
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      size: Math.random() * 2 + 0.5,
+      size: Math.random() * 2.5 + 0.5,
       speedX: (Math.random() - 0.5) * 0.3,
-      speedY: (Math.random() - 0.5) * 0.3,
+      speedY: -(Math.random() * 0.3 + 0.05),
       opacity: Math.random() * 0.5 + 0.1,
+      color: color,
     };
   }
 
@@ -205,11 +215,12 @@ switchTab = function(hash) {
       p.y += p.speedY;
 
       if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+      if (p.y < 0) { p.y = canvas.height; p.opacity = Math.random() * 0.5 + 0.1; }
+      if (p.y > canvas.height) p.speedY *= -1;
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(108, 99, 255, ${p.opacity})`;
+      ctx.fillStyle = `rgba(${p.color[0]}, ${p.color[1]}, ${p.color[2]}, ${p.opacity})`;
       ctx.fill();
     });
 
@@ -224,7 +235,7 @@ switchTab = function(hash) {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(108, 99, 255, ${0.08 * (1 - dist / 150)})`;
+          ctx.strokeStyle = `rgba(201, 160, 51, ${0.06 * (1 - dist / 150)})`;
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
