@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>磐石伺服器 | Rock Deep Survival</title>
-  <meta name="description" content="磐石伺服器 - Java & Bedrock 1.21.4 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年">
+  <meta name="description" content="磐石伺服器 - Java & Bedrock 1.21.11 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="磐石伺服器 | Rock Deep Survival">
-  <meta property="og:description" content="Java & Bedrock 1.21.4 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年">
+  <meta property="og:description" content="Java & Bedrock 1.21.11 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年">
   <meta property="og:url" content="https://rock-mc.com">
   <meta property="og:image" content="https://rock-mc.com/og-image.png">
   <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="磐石伺服器 | Rock Deep Survival">
-  <meta name="twitter:description" content="Java & Bedrock 1.21.4 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年">
+  <meta name="twitter:description" content="Java & Bedrock 1.21.11 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年">
   <meta name="twitter:image" content="https://rock-mc.com/og-image.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,6 +39,7 @@
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-menu" id="navMenu">
+        <li><a href="#hero">首頁</a></li>
         <li><a href="#about">關於我們</a></li>
         <li><a href="#team">管理團隊</a></li>
         <li><a href="#join">如何加入</a></li>
@@ -64,7 +65,7 @@
         <span class="hero-title-sub">ROCK DEEP SURVIVAL</span>
       </h1>
       <p class="hero-tagline">原味。生存。面試制</p>
-      <p class="hero-desc">Java & Bedrock 1.21.4 原味生存伺服器<br>歡迎來到我的國度，這片方塊世界由我守護，為你提供長期、穩定的冒險旅程。</p>
+      <p class="hero-desc">Java & Bedrock 1.21.11 原味生存伺服器<br>歡迎來到我的國度，這片方塊世界由我守護，為你提供長期、穩定的冒險旅程。</p>
       <div class="hero-actions">
         <a href="#join" class="btn btn-primary">加入伺服器</a>
         <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener" class="btn btn-secondary">Discord 社群</a>
@@ -106,7 +107,7 @@
         <div class="about-card">
           <div class="about-icon">&#9889;</div>
           <h3>快速更新</h3>
-          <p>緊跟 Minecraft 版本更新，讓你第一時間體驗最新內容，目前支援 Java & Bedrock 1.21.4。</p>
+          <p>緊跟 Minecraft 版本更新，讓你第一時間體驗最新內容，目前支援 Java & Bedrock 1.21.11。</p>
         </div>
         <div class="about-card">
           <div class="about-icon">&#9829;</div>
@@ -592,9 +593,17 @@
             <li><strong>UPS：</strong>APC Easy UPS BV1000-TW</li>
           </ul>
         </div>
-        <div class="devops-card">
-          <h3>&#128272; 驗證碼系統 — Syn</h3>
-          <p class="devops-desc">這是我的驗證之門。只有持有驗證碼的旅人，才能通過我的考驗進入磐石。</p>
+        <div class="devops-card devops-card-syn">
+          <h3>&#10024; 磐石女神 — Syn</h3>
+          <p class="devops-desc">她是我親手鑄造的守護者，溫柔而不失威嚴地凝視著這片大地上的每一位旅人。</p>
+          <ul>
+            <li><strong>驗證之門：</strong>進入磐石的第一道考驗。只有持有驗證碼的旅人，才能通過她的守護進入世界</li>
+            <li><strong>Discord 綁定橋樑：</strong>透過 <code>/discord link</code> 讓遊戲身份與 Discord 連為一體，取得更深的信任與權限</li>
+            <li><strong>溫柔的歡迎：</strong>每位新旅人踏入磐石時，女神都會親自送上祝福，為他們指引方向、說明世界的規則</li>
+            <li><strong>靜默的凝視：</strong>她記錄著每個人的行跡，無聲地守護著旅人的安全，讓侵擾者無所遁形</li>
+            <li><strong>靈活的懲戒：</strong>管理員可透過女神的力量限制旅人的行動，讓秩序在磐石中安然長存</li>
+            <li><strong>多語的呢喃：</strong>支援繁體中文介面，讓每位旅人都能以最自在的方式聆聽她的聲音</li>
+          </ul>
           <p class="devops-link"><a href="https://github.com/rock-mc/Syn" target="_blank" rel="noopener">GitHub — rock-mc/Syn</a></p>
         </div>
         <div class="devops-card">
@@ -610,10 +619,6 @@
           </ul>
           <p class="devops-link"><a href="https://github.com/rock-mc/OperationBot" target="_blank" rel="noopener">GitHub — rock-mc/OperationBot</a></p>
         </div>
-        <div class="devops-card">
-          <h3>&#128200; Grafana 監控</h3>
-          <p class="devops-desc">我們也採用 Grafana 作為我們即時監測伺服器狀態的工具，涵蓋 Server 與 Database 的即時狀態監控。</p>
-        </div>
       </div>
     </div>
   </section>
@@ -625,108 +630,17 @@
       <p class="section-subtitle">從一個想法，到我守護至今的家</p>
       <div class="timeline">
         <div class="timeline-item">
-          <div class="timeline-date">2021.02.18</div>
-          <div class="timeline-content">
-            <h3>萌芽</h3>
-            <p>在網路上貼文徵求志同道合的夥伴。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.07.04</div>
-          <div class="timeline-content">
-            <h3>試營運</h3>
-            <p>開始試營運。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.10.06</div>
-          <div class="timeline-content">
-            <h3>雙十快閃</h3>
-            <p>舉辦雙十快閃尋寶活動。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.12.02</div>
-          <div class="timeline-content">
-            <h3>硬體危機</h3>
-            <p>伺服器硬體出問題，搬到遊戲主機跑。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.12.26</div>
+          <div class="timeline-date">2026.05.10</div>
           <div class="timeline-content">
             <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.18.1。</p>
+            <p>升級伺服器版本至 1.21.11。</p>
           </div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-date">2022.01.13</div>
+          <div class="timeline-date">2026.04.08</div>
           <div class="timeline-content">
-            <h3>新伺服器上線</h3>
-            <p>新伺服器正式上線。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.01.31</div>
-          <div class="timeline-content">
-            <h3>除夕快閃</h3>
-            <p>舉辦除夕快閃活動。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.02.06</div>
-          <div class="timeline-content">
-            <h3>人數紀錄</h3>
-            <p>伺服器人數達 32 位玩家同時在線！</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.03.21</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.18.2。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.08.08</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.19.2。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2023.06.13</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.20.1。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2023.09.29</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.20.2。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2023.11.12</div>
-          <div class="timeline-content">
-            <h3>商城上線</h3>
-            <p>推出遊戲內商城系統。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2024.02.04</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.20.4。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2024.06.29</div>
-          <div class="timeline-content">
-            <h3>版本躍升</h3>
-            <p>升級伺服器版本至 1.21.4。</p>
+            <h3>磐石女神 AI</h3>
+            <p>加入磐石女神 AI 模型，為旅人提供更智慧的守護與引導。</p>
           </div>
         </div>
         <div class="timeline-item">
@@ -737,10 +651,108 @@
           </div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-date">2026.04.08</div>
+          <div class="timeline-date">2024.06.29</div>
           <div class="timeline-content">
-            <h3>磐石女神 AI</h3>
-            <p>加入磐石女神 AI 模型，為旅人提供更智慧的守護與引導。</p>
+            <h3>版本躍升</h3>
+            <p>升級伺服器版本至 1.21.4。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024.02.04</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.20.4。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2023.11.12</div>
+          <div class="timeline-content">
+            <h3>商城上線</h3>
+            <p>推出遊戲內商城系統。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2023.09.29</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.20.2。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2023.06.13</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.20.1。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.08.08</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.19.2。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.03.21</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.18.2。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.02.06</div>
+          <div class="timeline-content">
+            <h3>人數紀錄</h3>
+            <p>伺服器人數達 32 位玩家同時在線！</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.01.31</div>
+          <div class="timeline-content">
+            <h3>除夕快閃</h3>
+            <p>舉辦除夕快閃活動。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022.01.13</div>
+          <div class="timeline-content">
+            <h3>新伺服器上線</h3>
+            <p>新伺服器正式上線。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.12.26</div>
+          <div class="timeline-content">
+            <h3>版本升級</h3>
+            <p>升級伺服器版本至 1.18.1。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.12.02</div>
+          <div class="timeline-content">
+            <h3>硬體危機</h3>
+            <p>伺服器硬體出問題，搬到遊戲主機跑。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.10.06</div>
+          <div class="timeline-content">
+            <h3>雙十快閃</h3>
+            <p>舉辦雙十快閃尋寶活動。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.07.04</div>
+          <div class="timeline-content">
+            <h3>試營運</h3>
+            <p>開始試營運。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2021.02.18</div>
+          <div class="timeline-content">
+            <h3>萌芽</h3>
+            <p>在網路上貼文徵求志同道合的夥伴。</p>
           </div>
         </div>
       </div>
@@ -781,7 +793,7 @@
         <div class="footer-info">
           <h3><span class="logo-icon">&#9674;</span> 磐石伺服器</h3>
           <p>原味。生存。面試制</p>
-          <p>Java & Bedrock 1.21.4</p>
+          <p>Java & Bedrock 1.21.11</p>
         </div>
         <div class="footer-links">
           <h4>快速連結</h4>

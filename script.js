@@ -14,33 +14,52 @@ navToggle.addEventListener('click', () => {
 });
 
 // ===== Tab switching =====
+const hero = document.querySelector('.hero');
+const fadeInSelector = '.about-card, .step, .feature-card, .rule-card, .store-category, .devops-card, .timeline-item, .faq-item, .store-disclaimer, .join-intro, .about-intro, .rules-preamble, .team-card';
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll(fadeInSelector).forEach(el => {
+  el.classList.add('fade-in');
+  observer.observe(el);
+});
+
 function switchTab(hash, scroll = true) {
   const id = hash.replace('#', '');
-  // Hide all sections
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active-tab'));
-  // Show target section
-  const target = document.getElementById(id);
-  if (target && target.classList.contains('section')) {
-    target.classList.add('active-tab');
-  }
-  // Update active nav link
-  navMenu.querySelectorAll('a').forEach(a => {
-    a.classList.remove('active');
-    if (a.getAttribute('href') === '#' + id) {
-      a.classList.add('active');
+
+  if (id === 'hero') {
+    hero.classList.remove('tab-hidden');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active-tab'));
+  } else {
+    hero.classList.add('tab-hidden');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active-tab'));
+    const target = document.getElementById(id);
+    if (target?.classList.contains('section')) {
+      target.classList.add('active-tab');
+      // Re-trigger fade-in for newly visible section
+      target.querySelectorAll(fadeInSelector).forEach(el => {
+        observer.unobserve(el);
+        observer.observe(el);
+      });
     }
-  });
-  // Scroll to top of content area
-  if (scroll) {
-    window.scrollTo({ top: document.querySelector('.hero').offsetHeight, behavior: 'smooth' });
   }
+
+  navMenu.querySelectorAll('a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+  });
+
+  if (scroll) window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
-// Nav link clicks switch tabs
+// Nav link clicks
 navMenu.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', (e) => {
     const href = link.getAttribute('href');
-    if (href && href.startsWith('#') && href !== '#hero') {
+    if (href?.startsWith('#')) {
       e.preventDefault();
       switchTab(href);
       history.replaceState(null, '', href);
@@ -50,14 +69,14 @@ navMenu.querySelectorAll('a').forEach(link => {
   });
 });
 
-// Handle in-page links (e.g. hero buttons) that point to sections
+// Handle in-page links (hero buttons, footer links, etc.)
 document.querySelectorAll('a[href^="#"]').forEach(link => {
-  if (navMenu.contains(link)) return; // already handled above
+  if (navMenu.contains(link)) return;
   link.addEventListener('click', (e) => {
     const href = link.getAttribute('href');
-    if (href === '#hero') return; // let default scroll work
-    const target = document.getElementById(href.replace('#', ''));
-    if (target && target.classList.contains('section')) {
+    const id = href?.replace('#', '') || '';
+    const target = document.getElementById(id);
+    if (href === '#hero' || target?.classList.contains('section')) {
       e.preventDefault();
       switchTab(href);
       history.replaceState(null, '', href);
@@ -67,13 +86,13 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
 // Activate tab from URL hash on load
 (function initTab() {
-  const hash = window.location.hash || '#about';
+  const hash = window.location.hash || '#hero';
   const id = hash.replace('#', '');
   const target = document.getElementById(id);
-  if (target && target.classList.contains('section')) {
+  if (id === 'hero' || target?.classList.contains('section')) {
     switchTab(hash, false);
   } else {
-    switchTab('#about', false);
+    switchTab('#hero', false);
   }
 })();
 
@@ -82,7 +101,6 @@ function copyIP(text) {
   navigator.clipboard.writeText(text).then(() => {
     showToast('已複製到剪貼簿！');
   }).catch(() => {
-    // Fallback
     const ta = document.createElement('textarea');
     ta.value = text;
     document.body.appendChild(ta);
@@ -109,59 +127,16 @@ function showToast(msg) {
 // ===== FAQ toggle =====
 function toggleFAQ(btn) {
   const wasOpen = btn.classList.contains('open');
-
-  // Close all
   document.querySelectorAll('.faq-question').forEach(q => {
     q.classList.remove('open');
     q.nextElementSibling.style.maxHeight = null;
   });
-
-  // Open clicked (if it wasn't already open)
   if (!wasOpen) {
     btn.classList.add('open');
     const answer = btn.nextElementSibling;
     answer.style.maxHeight = answer.scrollHeight + 'px';
   }
 }
-
-// ===== Scroll animations =====
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, observerOptions);
-
-const fadeInSelector = '.about-card, .step, .feature-card, .rule-card, .store-category, .devops-card, .timeline-item, .faq-item, .store-disclaimer, .join-intro, .about-intro, .rules-preamble, .team-card';
-
-// Apply fade-in to elements
-document.querySelectorAll(fadeInSelector).forEach(el => {
-  el.classList.add('fade-in');
-  observer.observe(el);
-});
-
-// Re-observe fade-in elements when tab switches (hidden elements can't intersect)
-const origSwitchTab = switchTab;
-switchTab = function(hash) {
-  origSwitchTab(hash);
-  // Re-trigger observer for newly visible section
-  const id = hash.replace('#', '');
-  const section = document.getElementById(id);
-  if (section) {
-    section.querySelectorAll(fadeInSelector).forEach(el => {
-      observer.unobserve(el);
-      observer.observe(el);
-    });
-  }
-};
-
-// (Active nav link is now handled by switchTab)
 
 // ===== Particles =====
 (function initParticles() {
@@ -182,11 +157,11 @@ switchTab = function(hash) {
   }
 
   const emberColors = [
-    [201, 160, 51],  // gold
-    [232, 85, 32],   // ember orange
-    [255, 215, 0],   // bright gold
-    [0, 212, 170],   // teal (rare, like diamond)
-    [204, 51, 51],   // crimson (rare, like redstone)
+    [201, 160, 51],
+    [232, 85, 32],
+    [255, 215, 0],
+    [0, 212, 170],
+    [204, 51, 51],
   ];
 
   function createParticle() {
@@ -198,7 +173,7 @@ switchTab = function(hash) {
       speedX: (Math.random() - 0.5) * 0.3,
       speedY: -(Math.random() * 0.3 + 0.05),
       opacity: Math.random() * 0.5 + 0.1,
-      color: color,
+      color,
     };
   }
 
@@ -209,28 +184,22 @@ switchTab = function(hash) {
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     particles.forEach(p => {
       p.x += p.speedX;
       p.y += p.speedY;
-
       if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
       if (p.y < 0) { p.y = canvas.height; p.opacity = Math.random() * 0.5 + 0.1; }
       if (p.y > canvas.height) p.speedY *= -1;
-
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${p.color[0]}, ${p.color[1]}, ${p.color[2]}, ${p.opacity})`;
       ctx.fill();
     });
-
-    // Draw connections
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-
         if (dist < 150) {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
@@ -241,7 +210,6 @@ switchTab = function(hash) {
         }
       }
     }
-
     requestAnimationFrame(animate);
   }
 
@@ -259,23 +227,22 @@ switchTab = function(hash) {
     if (!username) return;
 
     const viewer = new skinview3d.SkinViewer({
-      canvas: canvas,
+      canvas,
       width: 200,
       height: 300,
       skin: `https://mineskin.eu/skin/${username}`,
     });
 
-    // Camera: show full body
     viewer.camera.rotation.x = -0.1;
     viewer.camera.rotation.y = 0;
     viewer.camera.position.y = -2;
     viewer.zoom = 0.85;
 
-    // Custom floating animation: idle + bobbing up/down + legs dangling
     viewer.animation = new skinview3d.IdleAnimation();
     viewer.animation.speed = 0.6;
     viewer.playerObject.skin.leftLeg.rotation.x = 0.1;
     viewer.playerObject.skin.rightLeg.rotation.x = -0.1;
+
     const playerObj = viewer.playerObject;
     const baseY = playerObj.position.y;
     let floatTime = 0;
@@ -285,11 +252,8 @@ switchTab = function(hash) {
       viewer.render();
     });
 
-    // Auto-rotate
     viewer.autoRotate = true;
     viewer.autoRotateSpeed = 1.0;
-
-    // Transparent background
     viewer.renderer.setClearColor(0x000000, 0);
   });
 })();
