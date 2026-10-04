@@ -2,9 +2,14 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>磐石伺服器 | 原味。生存。面試制</title>
   <meta name="description" content="磐石伺服器 - Java & Bedrock 1.21.11 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年">
+  <meta name="theme-color" content="#0a0806">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://rock-mc.com/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/cover-640.webp">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -23,800 +28,979 @@
   <meta name="twitter:description" content="Java & Bedrock 1.21.11 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年">
   <meta name="twitter:image" content="https://rock-mc.com/og-image.png">
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "磐石伺服器",
+    "alternateName": "Rock MC",
+    "url": "https://rock-mc.com/",
+    "description": "Java & Bedrock 1.21.11 原味生存 Minecraft 伺服器，面試制入伺，穩定守護五年",
+    "inLanguage": "zh-Hant"
+  }
+  </script>
+
+  <script>
+    (function (d) {
+      var c = d.documentElement.classList; c.add('js');
+      // show the requested page before first paint so nothing shifts once script.js takes over
+      var h = decodeURIComponent(location.hash.slice(1));
+      var pid = /^(about|team|join|features|rules|store|devops|history|faq)$/.test(h) ? h : /^(law|build)-\d$/.test(h) ? 'rules' : 'hero';
+      var st = d.createElement('style'); st.id = 'bootPage'; st.textContent = '.js #' + pid + '{display:block}'; d.head.appendChild(st);
+      try {
+        if (!sessionStorage.getItem('rock-loaded') && !matchMedia('(prefers-reduced-motion: reduce)').matches) c.add('show-loader');
+      } catch (e) {}
+    })(document);
+  </script>
+
+  <link rel="preload" as="image" href="assets/cover-1024.webp" type="image/webp" media="(min-width: 700px)">
+  <link rel="preload" as="image" href="assets/cover-640.webp" type="image/webp" media="(max-width: 699px)">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&display=swap"></noscript>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="#hero" class="nav-logo">
-        <span class="logo-icon">&#9674;</span> 磐石伺服器
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <!-- World loading screen -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-grid" id="loaderGrid"></div>
+      <p class="loader-label"><span>生成世界中</span><span class="loader-pct" id="loaderPct">0%</span></p>
+      <p class="loader-sub">LOADING TERRAIN</p>
+    </div>
+  </div>
+
+  <!-- Ambient layers -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="torch" aria-hidden="true"></div>
+  <canvas class="wipe" id="wipe" aria-hidden="true"></canvas>
+
+  <!-- Header -->
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <a href="#hero" class="brand" data-page-link>
+        <svg class="px brand-gem" viewBox="0 0 10 8" width="10" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d9ae4a" d="M2 0h6v1h-6zM1 1h1v1h-1zM4 1h1v1h-1zM7 1h2v1h-2zM0 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM8 2h1v1h-1zM0 3h9v1h-9zM1 4h1v1h-1zM3 4h5v1h-5zM2 5h1v1h-1zM4 5h3v1h-3zM3 6h1v1h-1zM5 6h1v1h-1zM4 7h1v1h-1z"/><path fill="#f6d77a" d="M2 1h2v1h-2zM5 1h2v1h-2zM1 2h2v1h-2zM4 2h2v1h-2zM7 2h1v1h-1zM2 4h1v1h-1zM3 5h1v1h-1zM4 6h1v1h-1z"/><path fill="#8a6a22" d="M9 2h1v1h-1zM9 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM6 6h1v1h-1zM5 7h1v1h-1z"/></svg>
+        <span class="brand-text">
+          <span class="brand-zh">磐石伺服器</span>
+          <span class="brand-en">ROCK · MC</span>
+        </span>
       </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-menu" id="navMenu">
-        <li><a href="#hero">首頁</a></li>
-        <li><a href="#about">關於我們</a></li>
-        <li><a href="#team">管理團隊</a></li>
-        <li><a href="#join">如何加入</a></li>
-        <li><a href="#features">玩家須知</a></li>
-        <li><a href="#rules">伺服器規範</a></li>
-        <li><a href="#store">磐石商城</a></li>
-        <li><a href="#devops">技術架構</a></li>
-        <li><a href="#history">歷史沿革</a></li>
-        <li><a href="#faq">常見問題</a></li>
-      </ul>
-    </div>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="hero-particles" id="particles"></div>
-    <div class="hero-content">
-      <div class="hero-cover">
-        <img src="index.PNG" alt="Rock Deep Survival" class="hero-cover-img">
-      </div>
-      <h1 class="hero-title">
-        <span class="hero-title-main">磐石伺服器</span>
-      </h1>
-      <p class="hero-tagline">原味。生存。面試制</p>
-      <p class="hero-desc">Java & Bedrock 1.21.11 原味生存伺服器<br>歡迎來到我的國度，這片方塊世界由我守護，為你提供長期、穩定的冒險旅程。</p>
-      <div class="hero-actions">
-        <a href="#join" class="btn btn-primary">加入伺服器</a>
-        <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener" class="btn btn-secondary">Discord 社群</a>
-      </div>
-      <div class="hero-server-info">
-        <div class="server-ip" onclick="copyIP('minecraft.rock-mc.com')">
-          <span class="ip-label">Java</span>
-          <code>minecraft.rock-mc.com</code>
-          <span class="copy-hint">點擊複製</span>
-        </div>
-        <div class="server-ip" onclick="copyIP('bedrock.rock-mc.com:19132')">
-          <span class="ip-label">Bedrock</span>
-          <code>bedrock.rock-mc.com:19132</code>
-          <span class="copy-hint">點擊複製</span>
-        </div>
-      </div>
-    </div>
-    <div class="hero-scroll">
-      <a href="#about"><span></span></a>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section class="section" id="about">
-    <div class="container">
-      <h2 class="section-title">關於磐石</h2>
-      <p class="section-subtitle">自 2021 年起，守護這片土地</p>
-      <div class="about-intro">
-        <p>親愛的孩子，我守護這片磐石大地已逾五年。在這裡，你會找到最純粹的生存體驗，與真摯的同行者。</p>
-        <p>我專注守護一個穩定流暢、氣氛友善的世界。盡可能使用最少的插件，讓每一次版本更新都能在第一時間降臨。</p>
-        <p>若你渴望一個有品質的家園與溫暖的社群，我在磐石的入口等你。</p>
-      </div>
-      <div class="about-grid">
-        <div class="about-card">
-          <div class="about-icon">&#9881;</div>
-          <h3>極簡插件</h3>
-          <p>堅持原味生存，盡可能使用最少的插件，有新版本的時候可以用最快的速度升級，保留 Minecraft 最純粹的遊戲體驗。</p>
-        </div>
-        <div class="about-card">
-          <div class="about-icon">&#9889;</div>
-          <h3>快速更新</h3>
-          <p>緊跟 Minecraft 版本更新，讓你第一時間體驗最新內容，目前支援 Java & Bedrock 1.21.11。</p>
-        </div>
-        <div class="about-card">
-          <div class="about-icon">&#9829;</div>
-          <h3>友善社群</h3>
-          <p>面試制入伺確保社群品質，打造友善、互助的遊戲環境。我們專注在維持穩定流暢的遊玩環境以及友善的氣氛。</p>
-        </div>
-        <div class="about-card">
-          <div class="about-icon">&#9731;</div>
-          <h3>穩定運行</h3>
-          <p>專業軟體工程師維護，自動備份、即時監控、UPS 不斷電系統，保障你的每一份心血。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Team -->
-  <section class="section section-alt" id="team">
-    <div class="container">
-      <h2 class="section-title">管理團隊</h2>
-      <p class="section-subtitle">與我一同守護這片國度的人們</p>
-      <h3 class="team-group-title">伺服器主</h3>
-      <div class="team-grid">
-        <div class="team-card">
-          <canvas class="team-skin" data-skin-username="TheCodingMan"></canvas>
-          <div class="team-glow"></div>
-          <h3 class="team-name">CodingMan</h3>
-        </div>
-      </div>
-
-      <h3 class="team-group-title">小幫手</h3>
-      <div class="team-grid">
-        <div class="team-card">
-          <canvas class="team-skin" data-skin-username="lilpiperhere"></canvas>
-          <div class="team-glow"></div>
-          <h3 class="team-name">lil</h3>
-        </div>
-        <div class="team-card">
-          <canvas class="team-skin" data-skin-username="kxant"></canvas>
-          <div class="team-glow"></div>
-          <h3 class="team-name">高高</h3>
-        </div>
-      </div>
-
-      <h3 class="team-group-title">實習小幫手</h3>
-      <div class="team-grid">
-        <div class="team-card">
-          <canvas class="team-skin" data-skin-username="Joanne9243"></canvas>
-          <div class="team-glow"></div>
-          <h3 class="team-name">9m</h3>
-        </div>
-        <div class="team-card">
-          <canvas class="team-skin" data-skin-username="yy114"></canvas>
-          <div class="team-glow"></div>
-          <h3 class="team-name">YY</h3>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Join -->
-  <section class="section section-alt" id="join">
-    <div class="container">
-      <h2 class="section-title">如何成為小石頭</h2>
-      <p class="section-subtitle">通過我的考驗，成為磐石的一份子</p>
-      <div class="join-intro">
-        <blockquote>在你的前方有一個深邃的礦坑，這是一條通往我國度的路，看起來危險而陡峭。但親愛的孩子，請相信路途終會變得光明順遂。<br>你準備好接受我的考驗了嗎？</blockquote>
-        <p>在踏上旅程之前，請先閱讀磐石律法並同意每一條規則呦。</p>
-      </div>
-
-      <h3 class="subsection-title">面試制</h3>
-      <p class="subsection-desc">磐石伺服器採用驗證碼門禁系統，使用自家工程師開發的 <a href="https://github.com/rock-mc/Syn" target="_blank" rel="noopener">Syn</a> 工具。</p>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">01</div>
-          <div class="step-content">
-            <h3>加入 Discord</h3>
-            <p>前往我們的 <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener">Discord 伺服器</a>，這是一切的起點。</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">02</div>
-          <div class="step-content">
-            <h3>填寫表單</h3>
-            <p>至 Discord 新人頻道填寫表單。</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">03</div>
-          <div class="step-content">
-            <h3>點選面試窗口</h3>
-            <p>點選新人面試窗口，靜待小幫手面試。</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">04</div>
-          <div class="step-content">
-            <h3>參加面試</h3>
-            <p>管理群一起面試。面試時請注意，你的 ID、大頭貼、簡介、說的任何話甚至態度都會決定面試的結果。</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">05</div>
-          <div class="step-content">
-            <h3>取得驗證碼</h3>
-            <p>通過後取得驗證碼，輸入驗證碼並按勾勾確認，請妥善保存。</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="join-note join-note-warning">
-        <p>連續標記 @小幫手 或私訊小幫手催促者，不予面試。</p>
-      </div>
-
-      <h3 class="subsection-title">開始遊戲</h3>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">01</div>
-          <div class="step-content">
-            <h3>新增多人遊戲伺服器</h3>
-            <p>在 Minecraft 中選擇多人遊戲，新增伺服器。</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">02</div>
-          <div class="step-content">
-            <h3>輸入伺服器位址</h3>
-            <p><strong>Java 版：</strong><code>minecraft.rock-mc.com</code><br>
-               <strong>Bedrock 版：</strong><code>bedrock.rock-mc.com</code>，埠號 <code>19132</code></p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">03</div>
-          <div class="step-content">
-            <h3>進入伺服器並驗證</h3>
-            <p>進入後暫時無法移動與聊天，請輸入驗證指令：<code>/syn verify 你的驗證碼</code></p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">04</div>
-          <div class="step-content">
-            <h3>綁定 Discord（選用）</h3>
-            <p>在遊戲中輸入 <code>/discord link</code> 取得驗證碼，提交至磐石女神完成綁定，可取得更多權限。</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="join-note">
-        <p><strong>注意：</strong>需要正版 Minecraft 帳號，伺服器會進行帳號驗證。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features / Player Guide -->
-  <section class="section" id="features">
-    <div class="container">
-      <h2 class="section-title">小石頭須知</h2>
-      <p class="section-subtitle">踏入磐石後，你需要知道的一切</p>
-      <div class="features-grid">
-        <div class="feature-card">
-          <h3>&#127760; 出生點保護區</h3>
-          <p>伺服器設置了半徑約 1000 格的保護區，以維持原始地貌，避免資深玩家在出生點附近佔用資源。玩家需跑到保護區外才可以破壞方塊，也可使用隨機傳送功能選擇起點。</p>
-        </div>
-        <div class="feature-card">
-          <h3>&#128279; Discord 綁定</h3>
-          <p>在遊戲中執行 <code>/discord link</code> 取得驗證碼，提交至磐石女神即可完成綁定，取得更多權限。</p>
-        </div>
-        <div class="feature-card">
-          <h3>&#128101; 邀請好友</h3>
-          <p>已入伺的玩家可以提供 Discord 連結邀請朋友，有填寫朋友 ID 或暱稱可以透過認識加速管理面試流程。</p>
-        </div>
-        <div class="feature-card">
-          <h3>&#128270; 方塊紀錄查詢</h3>
-          <p>使用 <code>/co i</code> 開啟查詢模式，檢查可疑的破壞或盜竊行為，截圖給管理員。查詢過後記得還要再一次 <code>/co i</code> 關閉查詢功能。</p>
-        </div>
-      </div>
-
-      <h3 class="commands-title">指令系統</h3>
-      <div class="commands-table">
-        <table>
-          <thead>
-            <tr><th>指令</th><th>功能</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><code>/warp spawn</code></td><td>回到出生點</td></tr>
-            <tr><td colspan="2" class="command-category">傳送系統（冷卻 5 分鐘，與 home 共用）</td></tr>
-            <tr><td><code>/tpa &lt;玩家ID&gt;</code></td><td>請求傳送至其他玩家</td></tr>
-            <tr><td><code>/tpaccept &lt;玩家ID&gt;</code></td><td>同意傳送請求</td></tr>
-            <tr><td><code>/tpdeny</code></td><td>拒絕傳送請求</td></tr>
-            <tr><td><code>/tptoggle &lt;玩家ID&gt;</code></td><td>開關特定玩家的傳送權限</td></tr>
-            <tr><td colspan="2" class="command-category">據點系統（最多 3 個傳送點）</td></tr>
-            <tr><td><code>/sethome [名稱]</code></td><td>設置回家點</td></tr>
-            <tr><td><code>/home [名稱]</code></td><td>傳送至設置的回家點</td></tr>
-            <tr><td><code>/delhome [名稱]</code></td><td>刪除回家點</td></tr>
-            <tr><td colspan="2" class="command-category">告示牌上鎖系統</td></tr>
-            <tr><td><code>/blocklocker &lt;行數&gt; &lt;參數&gt;</code></td><td>鎖定箱子、熔爐、門等容器</td></tr>
-            <tr><td><code>/bl &lt;行數&gt; &lt;參數&gt;</code></td><td>簡寫，功能同上</td></tr>
-            <tr><td colspan="2" class="command-detail">可用參數：玩家ID、<code>[timer:秒數]</code>、<code>[everyone]</code>、<code>[Redstone]</code></td></tr>
-            <tr><td colspan="2" class="command-category">其他</td></tr>
-            <tr><td><code>/co i</code> 或 <code>/core inspect</code></td><td>開關方塊查詢模式</td></tr>
-            <tr><td><code>/fly</code></td><td>開關飛行模式（需於商城購買）</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- Rules -->
-  <section class="section section-alt" id="rules">
-    <div class="container">
-      <h2 class="section-title">磐石律法</h2>
-      <p class="section-subtitle">維護和諧社群的基本規範</p>
-      <div class="rules-preamble">
-        <p>做任何決定前，應先設身處地、將心比心為其他人著想。請勿謠傳錯誤規定或扭曲釋義。如有任何重大情事，不排除以刑法第359條或其餘相關條例提告。若對新發布或既定規定有發現錯誤或異議者，請至意見信箱申訴或回覆，請勿私訊管理員。</p>
-      </div>
-      <div class="rules-grid">
-
-        <div class="rule-card rule-interview">
-          <h3>&#128220; 一、面試</h3>
-          <p class="rule-desc">進入伺服器前，請先經過管理員文字面試審核，為的是保障已在伺服器內的玩家安寧舒適的空間，希望面試者可以好好看規則，填妥問卷後耐心等待。面試審核著重綜合表現，無固定標準分數。</p>
-          <ul>
-            <li>1-1 對話態度或用詞不佳者不予錄用</li>
-            <li>1-2 不雅名稱、簡介及頭像（含遊戲ID、Discord 暱稱/ID、Skin）者不予錄用</li>
-            <li>1-3 催促管理員者不予錄用（私訊問題應用意見信箱）</li>
-          </ul>
-        </div>
-
-        <div class="rule-card rule-report">
-          <h3>&#128221; 二、檢舉</h3>
-          <p class="rule-desc">若在伺服器遇到玩家不當行為，可以採取檢舉途徑，於 Discord 的常駐資訊內有檢舉表單可填寫，但勿故意引起事端，玩家之間的爭執請盡量於檢舉前互相協調。官方一般不會但視嚴重性介入，若官方介入下，據了解後可能得以雙方皆懲處。當然若管理者濫用職權或行為不當也請向伺服主私訊回報。開庭採公開方式。</p>
-          <ul>
-            <li>2-1 期限：追溯期限為檢舉日至上上個月同日 00:00 之後</li>
-            <li>2-2 責任：保護個人帳號安全是個人的責任，被盜帳號、被親友使用造成的犯罪行為係屬角色為主，若說詞為他人使用，例無寬貸</li>
-            <li>2-3 誣告：若查無不法，因誣告，檢舉人須道歉及 14 天刑期。未道歉者或若經查證屬累犯則踢出伺服器</li>
-          </ul>
-        </div>
-
-        <div class="rule-card rule-ownership">
-          <h3>&#128274; 三、所有權</h3>
-          <p class="rule-desc"><strong>物品：</strong></p>
-          <ul>
-            <li>3-1-1 容器內物品以放置者為主</li>
-            <li>3-1-2 盔甲座/展示框上之物品同上</li>
-            <li>3-1-3 受刑/受審中不可動他人物品；被踢出者物品歸官方</li>
-          </ul>
-          <p class="rule-desc"><strong>建築：</strong></p>
-          <ul>
-            <li>3-2-1 公設屬官方，建築者保有修改權</li>
-            <li>3-2-2 共同建築優先序：先建者 > 紅石/傳送門 > 大量建築者</li>
-            <li>3-2-3 私人建築距他人 500 格以上</li>
-            <li>3-2-4 被踢出者建築可詢官方取用</li>
-            <li>3-2-5 受刑/受審中不可動他人建築</li>
-          </ul>
-          <p class="rule-desc"><strong>生物：</strong></p>
-          <ul>
-            <li>3-3-1 私人範圍內（牽繩/船/礦車/圍欄/建築內）之生物歸所有者</li>
-          </ul>
-        </div>
-
-        <div class="rule-card rule-severe">
-          <h3>&#9888; 四、重大情節</h3>
-          <p class="rule-desc">下列行為為重大犯行：</p>
-          <ul>
-            <li>4-1 使用不當外掛（飛行、透視、自動挖礦/釣魚/刷怪等）— 直接踢出，免審</li>
-            <li>4-2 利用漏洞取得不符規定物件 — 銷毀 + 一週刑期；再犯可踢出；已交易併詐騙踢出</li>
-            <li>4-3 竊取或毀損物品（須自行鎖箱）：冒名改告示牌 = 詐騙｜殺人撿物 = 竊取｜直接/間接毀損 = 毀損。初犯歸還 + 道歉 + 警告；累犯可踢出</li>
-            <li>4-4 詐騙行為（冒用身分、交易詐騙、誘拐、誘導偷竊）— 管理員判斷是否踢出，免審</li>
-            <li>4-5 擅改他人作品 — 輕微：方塊數 × 6 小時刑期；嚴重（紅石/音階）：踢出</li>
-          </ul>
-        </div>
-
-        <div class="rule-card rule-conduct">
-          <h3>&#128172; 五、言行舉止</h3>
-          <ul>
-            <li>5-1 不當言論（髒話/歧視/貶低/仇恨/地獄梗/騷擾/釣魚等）：言論自由應建立在不讓他人不自在、不舒服為前提之下，為維護良善聊天環境，請勿於公開聊天頻道洗頻或口無遮攔。洗頻 → 警告 + 禁言 1hr，二次禁言 1 天｜非針對性 → 警告 + 禁言 1hr，二次字數 × 2hr（強辯者字數 × 天數）｜針對性 → 需道歉，不道歉/累犯可踢出｜歧視性 → 可直接踢出</li>
-            <li>5-2 不雅名稱、頭像、簡介、造型或冒用原創 Skin：任何出現在伺服器的事物，請勿違反社會善良風俗、造成他人反感或不適 — 禁遊戲 + 禁言，24hr 未改可踢出</li>
-            <li>5-3 未經對方同意 PVP、殺戮：包含但不限於打死、炸死、淹死、燒死等（若擅闖他人領域誤觸陷阱不在此範圍內）— 道歉 + 1 天刑期；累犯可踢出</li>
-            <li>5-4 行為騷擾：明顯影響其他玩家的騷擾行為，包含跟蹤、重複發送指令予其他玩家、未經同意對其使用紅石、液體方塊等方式惡作劇等 — 道歉 + 1 天刑期；累犯可踢出</li>
-            <li>5-5 協力犯罪：助長或協力犯罪者與犯罪者同罪論。使用小號轉移或是利用小號轉移給本帳者，經查證論同罪處理</li>
-          </ul>
-        </div>
-
-        <div class="rule-card rule-creature">
-          <h3>&#128062; 六、生物保護</h3>
-          <ul>
-            <li>6-1 無限制自動/手動繁殖大量生物：如利用機關或特性無限制產生之生物（包含村民、敵對生物），大量且密集集中，可能因生物大量碰撞造成伺服器負擔 — 警告 + 1 日改善；逾期撲殺 + 關繁殖（不補償）；二次 12hr 刑期，往後 ×12hr 遞增</li>
-            <li>6-2 殺戮玩家擁有生物：玩家擁有生物範圍指玩家圈養生物（牽繩、船、礦車、圍欄、建築內、圍牆內、明顯範圍內等）— 非故意警告 + 復原；刻意/累犯可踢出。命名生物可請管理員復活（無意義命名/待宰除外）</li>
-          </ul>
-        </div>
-
-        <div class="rule-card rule-court">
-          <h3>&#9878; 七、法院罰則</h3>
-          <p class="rule-desc">若於開庭中有以下情節，則得以開罰（陳述過程中用詞不算）：</p>
-          <ul>
-            <li>7-1 對任一方（含審判方）口出惡言、人身攻擊及類似之行為 — 字數 × 2 天</li>
-            <li>7-2 被檢舉人不承認犯行，但經查詢後發現被檢舉人說謊時 — 14 天</li>
-            <li>7-3 同理，若被檢舉人不承認犯行時，經查詢發現檢舉人說謊時 — 14 天</li>
-            <li>7-4 就事論事，勿翻舊帳或答非所問 — 警告 2 次後每次 +1 天</li>
-            <li>7-5 若被檢舉人未到案說明或無意討論（如無意義回答及洗頻）— 直接處分不得抗告</li>
-            <li>7-6 如檢舉人/被檢舉人無故 24 小時內無加入討論 — 雙方可罰 14 天</li>
-          </ul>
-        </div>
-
-        <div class="rule-card rule-prisoner">
-          <h3>&#9961; 八、受刑人權益</h3>
-          <ul>
-            <li>8-1 受刑期間物品由伺服器保管，不得取用</li>
-            <li>8-2 受刑人放置於他人箱子之物品歸箱主</li>
-            <li>8-3 擅取受刑者物品 = 竊盜，直接裁罰</li>
-            <li>8-4 受刑期間私人設施關閉</li>
-            <li>8-5 刑滿一月未回 → 官方處置；被踢出 → 建築視情況開放或還原</li>
-            <li>8-6 受刑人公設收歸伺服器</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- 磐石建築法 -->
-      <h2 class="section-title section-title-sub">磐石建築法</h2>
-      <p class="section-subtitle">以下違反懲罰統一為：警告 + 1 日改善 → 逾期拆除 + 12hr 刑期 → 往後 ×12hr 遞增</p>
-      <div class="rules-grid">
-        <div class="rule-card rule-building">
-          <h3>&#127975; 一、玩家建築</h3>
-          <ul>
-            <li>1-1 建築距離：為維護伺服器美觀，避免過度開發的視覺及無力感，建築請距離他人建築 500 格以上，並維持兩者建築間之自然地貌。請勿用簡易建築（豆腐屋、直線光源、置物箱或簡易裝飾物）圈大片土地。協調後可縮短距離。檢舉需於建造一週內提出</li>
-            <li>1-2 公共空間：請勿佔用明顯極少數空間為私用。如終界傳送門入口及出口處、終界折躍門、終界龍祭壇附近空間</li>
-            <li>1-3 禁止水面路徑，請以坐船方式航行；若有長期需求，請自行於水面上修建橋梁，以維持美觀與船隻航行方便為主</li>
-            <li>1-4 違反善良風俗之外型或隱喻性建築物</li>
-            <li>1-5 影響伺服器運行之機關：此類機關包含但不限於大量機關同時運作、巨型紅石、大量生怪塔等造成伺服器負擔之機關</li>
-            <li>1-6 請勿使用無法調整時間的連閃器（指無法調整時間延遲，由 NOT 閘構成的閃爍器），請多使用中繼器增加時間延遲並加上開關的閃爍器，不使用時可以關閉</li>
-          </ul>
-        </div>
-
-        <div class="rule-card rule-public">
-          <h3>&#127963; 二、公共建築</h3>
-          <p class="rule-desc"><strong>玩家公共設施公有化：</strong></p>
-          <ul>
-            <li>玩家按照官方提供之申請表格，針對公共設施資格提出申請</li>
-            <li>通過官方審核並給予認證標章，即擁有公共設施資格及官方保護</li>
-            <li>在設施認證為公設的狀況下，若伺服器有轉移需求時，公設可不在個人額度內，惟公設申請移轉後，新的移轉地點需由申請人在期限內自行尋找</li>
-            <li>每位玩家都能幫忙監督是否有人破壞公共設施，若發現破壞之情事，可至意見信箱通報管理員</li>
-            <li>若出現公設破壞之情事，官方可直接依服規裁罰，無需開庭</li>
-            <li>原建造者仍可保有修正或新增功能之權力</li>
-          </ul>
-          <p class="rule-desc"><strong>公設認定標準及門檻：</strong></p>
-          <ul>
-            <li>不可限定使用者，應開放予全體玩家使用</li>
-            <li>若有搬移需求時，搬移物件內不含動物/生怪磚/村民（例：羊毛機、皮革塔、鐵人塔）</li>
-            <li>需依靠特定生態域所產生的特定資源，或不需特定生態域但能產出限定且較稀有資源（例：自動紫水晶機）</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="rules-footer">
-        <p>所有規則將視情況補充調整。違反者，將由幹部群視違反程度決定罰則內容。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Store -->
-  <section class="section" id="store">
-    <div class="container">
-      <h2 class="section-title">磐石商城</h2>
-      <p class="section-subtitle">使用磐石幣購買遊戲內物品（1 NTD = 1 磐石幣）</p>
-
-      <div class="store-disclaimer">
-        <h4>使用者宣告</h4>
-        <ul>
-          <li>使用磐石商城即代表您已閱讀並同意遵守磐石伺服器的所有規則</li>
-          <li>未滿 18 歲者需經監護人同意</li>
-          <li>虛擬道具一經售出，不提供退款、退貨或換貨服務</li>
-          <li>請妥善保護您的帳號安全</li>
-          <li>因遊戲更新或伺服器調整造成的影響，恕不負責</li>
+      <nav class="nav" aria-label="主要導覽">
+        <ul class="nav-list" id="navList">
+          <li><a href="#hero" data-page-link>首頁</a></li>
+          <li><a href="#about" data-page-link>關於我們</a></li>
+          <li><a href="#team" data-page-link>管理團隊</a></li>
+          <li><a href="#join" data-page-link>如何加入</a></li>
+          <li><a href="#features" data-page-link>玩家須知</a></li>
+          <li><a href="#rules" data-page-link>伺服器規範</a></li>
+          <li><a href="#store" data-page-link>磐石商城</a></li>
+          <li><a href="#devops" data-page-link>技術架構</a></li>
+          <li><a href="#history" data-page-link>歷史沿革</a></li>
+          <li><a href="#faq" data-page-link>常見問題</a></li>
         </ul>
-      </div>
+      </nav>
 
-      <div class="store-grid">
-        <div class="store-category">
-          <h3>&#10024; 特殊道具</h3>
-          <div class="store-items">
-            <div class="store-item"><span>透明展示框 x8</span><span class="price">50 幣</span></div>
-            <div class="store-item"><span>個人頭顱 x1</span><span class="price">200 幣</span></div>
-          </div>
-        </div>
-        <div class="store-category">
-          <h3>&#9935; 建築材料</h3>
-          <div class="store-items">
-            <div class="store-item"><span>鐵錠 x1組</span><span class="price">30 幣</span></div>
-            <div class="store-item"><span>黃金錠 x1組</span><span class="price">50 幣</span></div>
-            <div class="store-item"><span>紅石粉 x1組</span><span class="price">50 幣</span></div>
-            <div class="store-item"><span>鑽石 x1組</span><span class="price">200 幣</span></div>
-            <div class="store-item"><span>獄髓錠 x1</span><span class="price">100 幣</span></div>
-          </div>
-        </div>
-        <div class="store-category">
-          <h3>&#128142; 稀有道具</h3>
-          <div class="store-items">
-            <div class="store-item"><span>終界水晶 x20</span><span class="price">100 幣</span></div>
-            <div class="store-item"><span>鞘翅 x1</span><span class="price">200 幣</span></div>
-            <div class="store-item"><span>鞘翅（保護IV+修補+耐久III）x1</span><span class="price">300 幣</span></div>
-            <div class="store-item"><span>煙火 x3組</span><span class="price">10 幣</span></div>
-            <div class="store-item"><span>重鎚 x1</span><span class="price">300 幣</span></div>
-          </div>
-        </div>
-        <div class="store-category">
-          <h3>&#127866; 經驗值</h3>
-          <div class="store-items">
-            <div class="store-item"><span>附魔之瓶 x1組</span><span class="price">100 幣</span></div>
-          </div>
-        </div>
-        <div class="store-category">
-          <h3>&#128062; 寵物</h3>
-          <div class="store-items">
-            <div class="store-item"><span>藍色六角恐龍 x1</span><span class="price">200 幣</span></div>
-            <div class="store-item"><span>山貓 x1</span><span class="price">200 幣</span></div>
-            <div class="store-item"><span>遠古乕衛兵 x1</span><span class="price">300 幣</span></div>
-            <div class="store-item"><span>乕界幽靈 x1</span><span class="price">300 幣</span></div>
-          </div>
-        </div>
-        <div class="store-category">
-          <h3>&#127912; 個人化</h3>
-          <div class="store-items">
-            <div class="store-item"><span>自訂暱稱</span><span class="price">100 幣/次</span></div>
-            <div class="store-item"><span>自訂進場訊息</span><span class="price">100 幣/次</span></div>
-          </div>
-        </div>
-        <div class="store-category">
-          <h3>&#128640; 飛行權限</h3>
-          <div class="store-items">
-            <div class="store-item"><span>1 天</span><span class="price">50 幣</span></div>
-            <div class="store-item"><span>3 天</span><span class="price">100 幣</span></div>
-            <div class="store-item"><span>10 天</span><span class="price">200 幣</span></div>
-            <div class="store-item"><span>20 天</span><span class="price">300 幣</span></div>
-            <div class="store-item"><span>40 天</span><span class="price">500 幣</span></div>
-          </div>
-        </div>
-        <div class="store-category">
-          <h3>&#127968; Home 傳送點</h3>
-          <div class="store-items">
-            <div class="store-item"><span>+1 個傳送點</span><span class="price">100 幣</span></div>
-            <div class="store-item"><span>+2 個傳送點</span><span class="price">180 幣</span></div>
-            <div class="store-item"><span>+4 個傳送點</span><span class="price">350 幣</span></div>
-          </div>
-        </div>
-      </div>
-
-      <h3 class="commands-title">磐石幣加贈方案</h3>
-      <div class="commands-table">
-        <table>
-          <thead>
-            <tr><th>儲值金額 (NTD)</th><th>獲得磐石幣</th><th>加贈</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>20 ~ 100</td><td>20 ~ 100</td><td>—</td></tr>
-            <tr><td>300</td><td>315</td><td>+5%</td></tr>
-            <tr><td>500</td><td>550</td><td>+10%</td></tr>
-            <tr><td>1,000</td><td>1,150</td><td>+15%</td></tr>
-            <tr><td>3,000</td><td>3,600</td><td>+20%</td></tr>
-            <tr><td>5,000</td><td>6,250</td><td>+25%</td></tr>
-            <tr><td>10,000</td><td>13,000</td><td>+30%</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="store-note">支援 Line Pay 及 PayPal 付款。</p>
-    </div>
-  </section>
-
-  <!-- DevOps -->
-  <section class="section section-alt" id="devops">
-    <div class="container">
-      <h2 class="section-title">磐石機器</h2>
-      <p class="section-subtitle">Infra & Dev & Ops — 這裡介紹磐石伺服器使用的設備與一些工具</p>
-      <div class="devops-grid">
-        <div class="devops-card">
-          <h3>&#128187; 伺服器硬體</h3>
-          <ul>
-            <li><strong>處理器：</strong>Intel i5-12400</li>
-            <li><strong>記憶體：</strong>32GB RAM</li>
-            <li><strong>硬碟：</strong>1TB SSD</li>
-            <li><strong>備份：</strong>2TB HDD，每天自動備份，一週兩次備份至美國</li>
-            <li><strong>網路：</strong>500/500 Mb</li>
-            <li><strong>路由器：</strong>MikroTik RB450Gx4</li>
-            <li><strong>資料庫：</strong>MySQL（運行於 MSI Cubi N 8GL）</li>
-            <li><strong>UPS：</strong>APC Easy UPS BV1000-TW</li>
-          </ul>
-        </div>
-        <div class="devops-card devops-card-syn">
-          <h3>&#10024; 磐石女神 — Syn</h3>
-          <p class="devops-desc">她是我親手鑄造的守護者，溫柔而不失威嚴地凝視著這片大地上的每一位旅人。</p>
-          <ul>
-            <li><strong>驗證之門：</strong>進入磐石的第一道考驗。只有持有驗證碼的旅人，才能通過她的守護進入世界</li>
-            <li><strong>Discord 綁定橋樑：</strong>透過 <code>/discord link</code> 讓遊戲身份與 Discord 連為一體，取得更深的信任與權限</li>
-            <li><strong>溫柔的歡迎：</strong>每位新旅人踏入磐石時，女神都會親自送上祝福，為他們指引方向、說明世界的規則</li>
-            <li><strong>靜默的凝視：</strong>她記錄著每個人的行跡，無聲地守護著旅人的安全，讓侵擾者無所遁形</li>
-            <li><strong>靈活的懲戒：</strong>管理員可透過女神的力量限制旅人的行動，讓秩序在磐石中安然長存</li>
-            <li><strong>多語的呢喃：</strong>支援繁體中文介面，讓每位旅人都能以最自在的方式聆聽她的聲音</li>
-          </ul>
-          <p class="devops-link"><a href="https://github.com/rock-mc/Syn" target="_blank" rel="noopener">GitHub — rock-mc/Syn</a></p>
-        </div>
-        <div class="devops-card">
-          <h3>&#129302; 維運機器人 — OperationBot</h3>
-          <p class="devops-desc">我們在系統還有伺服器之間，開發了一套機器人來幫助我們維運伺服器，可以幫助我們自動化一些操作：</p>
-          <ul>
-            <li>Lag 時自動重啟伺服器</li>
-            <li>自動備份伺服器</li>
-            <li>伺服器意外關閉時，重新啟動伺服器</li>
-            <li>發送警告訊息到 Discord</li>
-            <li>自動更新 Paper 伺服器程式，自動測試完成之後，就會自動上線運作</li>
-            <li>斷電過後五分鐘，未恢復供電可自動關閉伺服器儲存地圖並關機</li>
-          </ul>
-          <p class="devops-link"><a href="https://github.com/rock-mc/OperationBot" target="_blank" rel="noopener">GitHub — rock-mc/OperationBot</a></p>
-        </div>
+      <div class="header-actions">
+        <span class="depth-chip" id="depthChip" aria-hidden="true">Y <b>64</b></span>
+        <a href="#join" class="header-cta" data-page-link>加入伺服器</a>
+        <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">
+          <span class="menu-btn-label">選單</span>
+          <span class="menu-btn-icon" aria-hidden="true"><i></i><i></i></span>
+        </button>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- History -->
-  <section class="section" id="history">
-    <div class="container">
-      <h2 class="section-title">磐石歷史</h2>
-      <p class="section-subtitle">從一個想法，到我守護至今的家</p>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">2026.05.10</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.21.11。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2026.04.08</div>
-          <div class="timeline-content">
-            <h3>磐石女神 AI</h3>
-            <p>加入磐石女神 AI 模型，為旅人提供更智慧的守護與引導。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2024.09.29</div>
-          <div class="timeline-content">
-            <h3>跨平台</h3>
-            <p>支援 Bedrock 版本，Java 與基岩版玩家可以一起遊玩。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2024.06.29</div>
-          <div class="timeline-content">
-            <h3>版本躍升</h3>
-            <p>升級伺服器版本至 1.21.4。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2024.02.04</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.20.4。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2023.11.12</div>
-          <div class="timeline-content">
-            <h3>商城上線</h3>
-            <p>推出遊戲內商城系統。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2023.09.29</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.20.2。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2023.06.13</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.20.1。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.08.08</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.19.2。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.03.21</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.18.2。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.02.06</div>
-          <div class="timeline-content">
-            <h3>人數紀錄</h3>
-            <p>伺服器人數達 32 位玩家同時在線！</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.01.31</div>
-          <div class="timeline-content">
-            <h3>除夕快閃</h3>
-            <p>舉辦除夕快閃活動。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2022.01.13</div>
-          <div class="timeline-content">
-            <h3>新伺服器上線</h3>
-            <p>新伺服器正式上線。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.12.26</div>
-          <div class="timeline-content">
-            <h3>版本升級</h3>
-            <p>升級伺服器版本至 1.18.1。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.12.02</div>
-          <div class="timeline-content">
-            <h3>硬體危機</h3>
-            <p>伺服器硬體出問題，搬到遊戲主機跑。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.10.06</div>
-          <div class="timeline-content">
-            <h3>雙十快閃</h3>
-            <p>舉辦雙十快閃尋寶活動。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.07.04</div>
-          <div class="timeline-content">
-            <h3>試營運</h3>
-            <p>開始試營運。</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2021.02.18</div>
-          <div class="timeline-content">
-            <h3>萌芽</h3>
-            <p>在網路上貼文徵求志同道合的夥伴。</p>
-          </div>
-        </div>
-      </div>
+  <!-- Full-screen menu (mobile / tablet) -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <div class="menu-art" aria-hidden="true"></div>
+    <nav class="menu-nav" aria-label="全站選單">
+      <ol class="menu-list" id="menuList"></ol>
+    </nav>
+    <div class="menu-foot">
+      <p><span class="mono">minecraft.rock-mc.com</span></p>
+      <p><span class="mono">bedrock.rock-mc.com:19132</span></p>
     </div>
-  </section>
+  </div>
 
-  <!-- FAQ -->
-  <section class="section section-alt" id="faq">
-    <div class="container">
-      <h2 class="section-title">常見問題</h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)">
-            <span>請問可以給我 OP 嗎？</span>
-            <span class="faq-icon">+</span>
+  <!-- Depth gauge -->
+  <div class="gauge" id="gauge" aria-hidden="true">
+    <div class="gauge-readout">
+      <span class="gauge-y">Y</span>
+      <span class="gauge-num" id="gaugeNum">64</span>
+    </div>
+    <div class="gauge-track" id="gaugeTrack">
+      <span class="gauge-fill" id="gaugeFill"></span>
+    </div>
+    <span class="gauge-layer" id="gaugeLayer">地表</span>
+  </div>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="page hero" id="hero" data-title="磐石伺服器 | 原味。生存。面試制" data-y="64" data-layer="地表" data-layer-en="SURFACE">
+      <div class="hero-art" id="heroArt" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 699px)" srcset="assets/cover-640.webp" type="image/webp">
+          <source srcset="assets/cover-1024.webp" type="image/webp">
+          <img src="assets/cover-1024.jpg" alt="" width="1024" height="1024" fetchpriority="high" decoding="async">
+        </picture>
+        <canvas class="embers" id="embers"></canvas>
+      </div>
+
+      <div class="hero-body">
+        <p class="hero-eyebrow reveal-line"><span class="rule"></span><span><span class="eb-est">EST. MMXXI&nbsp;·&nbsp;</span>JAVA &amp; BEDROCK 1.21.11</span></p>
+        <h1 class="hero-title">
+          <span class="hero-title-main" data-split>磐石</span>
+          <span class="hero-title-row">
+            <span class="hero-title-sub" data-split>伺服器</span>
+            <span class="hero-title-en">ROCK<br>DEEP SURVIVAL</span>
+          </span>
+        </h1>
+        <p class="hero-tagline reveal-line">
+          <span class="sr-only">原味。生存。面試制</span>
+          <span aria-hidden="true">原味</span><svg class="px sep" viewBox="0 0 10 8" width="10" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d9ae4a" d="M2 0h6v1h-6zM1 1h1v1h-1zM4 1h1v1h-1zM7 1h2v1h-2zM0 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM8 2h1v1h-1zM0 3h9v1h-9zM1 4h1v1h-1zM3 4h5v1h-5zM2 5h1v1h-1zM4 5h3v1h-3zM3 6h1v1h-1zM5 6h1v1h-1zM4 7h1v1h-1z"/><path fill="#f6d77a" d="M2 1h2v1h-2zM5 1h2v1h-2zM1 2h2v1h-2zM4 2h2v1h-2zM7 2h1v1h-1zM2 4h1v1h-1zM3 5h1v1h-1zM4 6h1v1h-1z"/><path fill="#8a6a22" d="M9 2h1v1h-1zM9 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM6 6h1v1h-1zM5 7h1v1h-1z"/></svg><span aria-hidden="true">生存</span><svg class="px sep" viewBox="0 0 10 8" width="10" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d9ae4a" d="M2 0h6v1h-6zM1 1h1v1h-1zM4 1h1v1h-1zM7 1h2v1h-2zM0 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM8 2h1v1h-1zM0 3h9v1h-9zM1 4h1v1h-1zM3 4h5v1h-5zM2 5h1v1h-1zM4 5h3v1h-3zM3 6h1v1h-1zM5 6h1v1h-1zM4 7h1v1h-1z"/><path fill="#f6d77a" d="M2 1h2v1h-2zM5 1h2v1h-2zM1 2h2v1h-2zM4 2h2v1h-2zM7 2h1v1h-1zM2 4h1v1h-1zM3 5h1v1h-1zM4 6h1v1h-1z"/><path fill="#8a6a22" d="M9 2h1v1h-1zM9 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM6 6h1v1h-1zM5 7h1v1h-1z"/></svg><span aria-hidden="true">面試制</span>
+        </p>
+        <p class="hero-desc reveal-line">Java &amp; Bedrock 1.21.11 原味生存伺服器<br>歡迎來到我的國度，這片方塊世界由我守護，為你提供長期、穩定的冒險旅程。</p>
+
+        <div class="hero-actions reveal-line">
+          <a href="#join" class="btn btn-gold" data-page-link>
+            <span>加入伺服器</span><svg class="px btn-ico" viewBox="0 0 7 5" width="7" height="5" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M4 0h1v1h-1zM4 1h2v1h-2zM0 2h7v1h-7zM4 3h2v1h-2zM4 4h1v1h-1z"/></svg>
+          </a>
+          <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg class="px btn-ico" viewBox="0 0 9 7" width="9" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h7v1h-7zM0 1h9v1h-9zM0 2h2v1h-2zM3 2h1v1h-1zM5 2h1v1h-1zM7 2h2v1h-2zM0 3h9v1h-9zM1 4h7v1h-7zM1 5h2v1h-2zM1 6h1v1h-1z"/></svg><span>Discord 社群</span>
+          </a>
+        </div>
+
+        <div class="ip-list reveal-line">
+          <button class="ip" type="button" data-copy="minecraft.rock-mc.com">
+            <span class="ip-tag">JAVA</span>
+            <span class="ip-addr">minecraft.rock-mc.com</span>
+            <span class="ip-copy"><svg class="px" viewBox="0 0 7 7" width="7" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M0 0h5v1h-5zM0 1h1v1h-1zM4 1h1v1h-1zM0 2h1v1h-1zM2 2h5v1h-5zM0 3h1v1h-1zM2 3h1v1h-1zM6 3h1v1h-1zM0 4h3v1h-3zM6 4h1v1h-1zM2 5h1v1h-1zM6 5h1v1h-1zM2 6h5v1h-5z"/></svg><span class="ip-copy-text">點擊複製</span></span>
           </button>
-          <div class="faq-answer">
-            <p>親愛的孩子，不可以呦。</p>
+          <button class="ip" type="button" data-copy="bedrock.rock-mc.com:19132">
+            <span class="ip-tag ip-tag-alt">BEDROCK</span>
+            <span class="ip-addr">bedrock.rock-mc.com<span class="ip-port">:19132</span></span>
+            <span class="ip-copy"><svg class="px" viewBox="0 0 7 7" width="7" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M0 0h5v1h-5zM0 1h1v1h-1zM4 1h1v1h-1zM0 2h1v1h-1zM2 2h5v1h-5zM0 3h1v1h-1zM2 3h1v1h-1zM6 3h1v1h-1zM0 4h3v1h-3zM6 4h1v1h-1zM2 5h1v1h-1zM6 5h1v1h-1zM2 6h5v1h-5z"/></svg><span class="ip-copy-text">點擊複製</span></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <dl class="hero-stats">
+          <div><dt>創立</dt><dd><span data-count="2021">2021</span></dd></div>
+          <div><dt>守護</dt><dd><span data-count="5">5</span><small>年+</small></dd></div>
+          <div><dt>同時在線紀錄</dt><dd><span data-count="32">32</span><small>人</small></dd></div>
+          <div><dt>版本</dt><dd>1.21.11</dd></div>
+        </dl>
+        <a href="#about" class="descend" data-page-link>
+          <span class="descend-text">向下探索</span>
+          <span class="descend-line" aria-hidden="true"><i></i></span>
+          <span class="descend-y">Y 48</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section class="page section" id="about" data-title="關於磐石 | 磐石伺服器" data-y="48" data-layer="石層" data-layer-en="STONE">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">02</span><span class="page-of">/ 10</span><span class="page-eyebrow">ABOUT THE REALM</span></p>
+          <h2 class="page-title" data-split tabindex="-1">關於磐石</h2>
+          <p class="page-lede">自 2021 年起，守護這片土地</p>
+        </header>
+
+        <div class="about-layout">
+          <div class="about-intro reveal">
+            <p class="about-lead">親愛的孩子，我守護這片磐石大地已逾五年。在這裡，你會找到最純粹的生存體驗，與真摯的同行者。</p>
+            <p>我專注守護一個穩定流暢、氣氛友善的世界。盡可能使用最少的插件，讓每一次版本更新都能在第一時間降臨。</p>
+            <p>若你渴望一個有品質的家園與溫暖的社群，我在磐石的入口等你。</p>
+            <p class="signature">— 磐石女神</p>
+          </div>
+          <figure class="about-figure reveal" aria-hidden="true">
+            <img src="assets/syn-portrait.webp" alt="" width="480" height="480" loading="lazy" decoding="async">
+            <figcaption><span>SYN</span><span>守護者</span></figcaption>
+          </figure>
+        </div>
+
+        <ol class="pillars">
+          <li class="pillar reveal">
+            <span class="pillar-no">01</span>
+            <span class="pillar-ico"><svg class="px" viewBox="0 0 12 10" width="12" height="10" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#3fcfbd" d="M2 0h8v1h-8zM1 1h1v1h-1zM0 2h2v1h-2zM0 3h1v1h-1z"/><path fill="#a8fff2" d="M2 1h8v1h-8z"/><path fill="#1f8f84" d="M10 1h1v1h-1zM10 2h2v1h-2zM11 3h1v1h-1z"/><path fill="#8a5a2b" d="M5 2h2v1h-2zM5 3h2v1h-2zM5 4h1v1h-1zM5 5h1v1h-1zM5 6h1v1h-1zM5 7h1v1h-1zM5 8h1v1h-1z"/><path fill="#b9824a" d="M6 4h1v1h-1zM6 5h1v1h-1zM6 6h1v1h-1zM6 7h1v1h-1zM6 8h1v1h-1z"/><path fill="#8a6a22" d="M5 9h2v1h-2z"/></svg></span>
+            <h3>極簡插件</h3>
+            <p>堅持原味生存，盡可能使用最少的插件，有新版本的時候可以用最快的速度升級，保留 Minecraft 最純粹的遊戲體驗。</p>
+          </li>
+          <li class="pillar reveal">
+            <span class="pillar-no">02</span>
+            <span class="pillar-ico"><svg class="px" viewBox="0 0 9 9" width="9" height="9" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#f6d77a" d="M6 0h3v1h-3zM5 1h2v1h-2zM4 2h2v1h-2zM3 3h2v1h-2zM2 4h6v1h-6zM5 5h2v1h-2zM4 6h2v1h-2zM3 7h1v1h-1z"/><path fill="#d9ae4a" d="M7 1h1v1h-1zM6 2h1v1h-1zM5 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM6 6h1v1h-1zM4 7h1v1h-1zM2 8h1v1h-1z"/></svg></span>
+            <h3>快速更新</h3>
+            <p>緊跟 Minecraft 版本更新，讓你第一時間體驗最新內容，目前支援 Java &amp; Bedrock 1.21.11。</p>
+          </li>
+          <li class="pillar reveal">
+            <span class="pillar-no">03</span>
+            <span class="pillar-ico"><svg class="px" viewBox="0 0 9 8" width="9" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d8412f" d="M1 0h2v1h-2zM6 0h2v1h-2zM0 1h1v1h-1zM3 1h1v1h-1zM5 1h3v1h-3zM0 2h1v1h-1zM2 2h6v1h-6zM0 3h8v1h-8zM1 4h6v1h-6zM2 5h4v1h-4zM3 6h2v1h-2z"/><path fill="#ff8a6e" d="M1 1h2v1h-2zM1 2h1v1h-1z"/><path fill="#8f2318" d="M8 1h1v1h-1zM8 2h1v1h-1zM8 3h1v1h-1zM7 4h1v1h-1zM6 5h1v1h-1zM5 6h1v1h-1zM4 7h1v1h-1z"/></svg></span>
+            <h3>友善社群</h3>
+            <p>面試制入伺確保社群品質，打造友善、互助的遊戲環境。我們專注在維持穩定流暢的遊玩環境以及友善的氣氛。</p>
+          </li>
+          <li class="pillar reveal">
+            <span class="pillar-no">04</span>
+            <span class="pillar-ico"><svg class="px" viewBox="0 0 10 10" width="10" height="10" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d9ae4a" d="M0 0h10v1h-10zM0 1h1v1h-1zM9 1h1v1h-1zM0 2h1v1h-1zM9 2h1v1h-1zM0 3h1v1h-1zM9 3h1v1h-1zM0 4h1v1h-1zM9 4h1v1h-1zM1 5h1v1h-1zM8 5h1v1h-1zM1 6h1v1h-1zM8 6h1v1h-1zM2 7h1v1h-1zM7 7h1v1h-1zM3 8h1v1h-1zM6 8h1v1h-1zM4 9h2v1h-2z"/><path fill="#3fcfbd" d="M1 1h7v1h-7zM1 2h1v1h-1zM4 2h4v1h-4zM1 3h1v1h-1zM3 3h5v1h-5zM1 4h7v1h-7zM2 5h5v1h-5zM2 6h5v1h-5zM3 7h4v1h-4zM4 8h2v1h-2z"/><path fill="#1f8f84" d="M8 1h1v1h-1zM8 2h1v1h-1zM8 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM7 6h1v1h-1z"/><path fill="#a8fff2" d="M2 2h2v1h-2zM2 3h1v1h-1z"/></svg></span>
+            <h3>穩定運行</h3>
+            <p>專業軟體工程師維護，自動備份、即時監控、UPS 不斷電系統，保障你的每一份心血。</p>
+          </li>
+        </ol>
+        <a href="#team" class="next-page" data-page-link>
+          <span class="next-label">繼續深入 · NEXT LAYER</span>
+          <span class="next-title">管理團隊</span>
+          <span class="next-y">Y 32 <svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM0 3h5v1h-5zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== TEAM ===================== -->
+    <section class="page section" id="team" data-title="管理團隊 | 磐石伺服器" data-y="32" data-layer="石層" data-layer-en="STONE">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">03</span><span class="page-of">/ 10</span><span class="page-eyebrow">THE GUARDIANS</span></p>
+          <h2 class="page-title" data-split tabindex="-1">管理團隊</h2>
+          <p class="page-lede">與我一同守護這片國度的人們</p>
+        </header>
+
+        <div class="team-groups">
+        <div class="team-group">
+          <h3 class="team-group-title"><span>伺服器主</span><span class="en">OWNER</span></h3>
+          <div class="team-row">
+            <figure class="team-card team-card-lead reveal" data-skin="TheCodingMan">
+              <div class="team-stage"><canvas class="team-skin" width="220" height="300" aria-label="CodingMan 的 Minecraft 角色 3D 模型" role="img"></canvas><span class="team-plinth" aria-hidden="true"></span><span class="team-fallback" aria-hidden="true">C</span></div>
+              <figcaption><span class="team-name">CodingMan</span><span class="team-role">伺服器主</span></figcaption>
+            </figure>
           </div>
         </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)">
-            <span>請問可以給我種子碼嗎？</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>不可以呦，我的國度不會透露伺服器設定。</p>
+
+        <div class="team-group">
+          <h3 class="team-group-title"><span>小幫手</span><span class="en">KEEPERS</span></h3>
+          <div class="team-row">
+            <figure class="team-card reveal" data-skin="lilpiperhere">
+              <div class="team-stage"><canvas class="team-skin" width="220" height="300" aria-label="lil 的 Minecraft 角色 3D 模型" role="img"></canvas><span class="team-plinth" aria-hidden="true"></span><span class="team-fallback" aria-hidden="true">L</span></div>
+              <figcaption><span class="team-name">lil</span><span class="team-role">小幫手</span></figcaption>
+            </figure>
+            <figure class="team-card reveal" data-skin="kxant">
+              <div class="team-stage"><canvas class="team-skin" width="220" height="300" aria-label="高高 的 Minecraft 角色 3D 模型" role="img"></canvas><span class="team-plinth" aria-hidden="true"></span><span class="team-fallback" aria-hidden="true">高</span></div>
+              <figcaption><span class="team-name">高高</span><span class="team-role">小幫手</span></figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="team-group">
+          <h3 class="team-group-title"><span>實習小幫手</span><span class="en">APPRENTICES</span></h3>
+          <div class="team-row">
+            <figure class="team-card reveal" data-skin="Joanne9243">
+              <div class="team-stage"><canvas class="team-skin" width="220" height="300" aria-label="9m 的 Minecraft 角色 3D 模型" role="img"></canvas><span class="team-plinth" aria-hidden="true"></span><span class="team-fallback" aria-hidden="true">9</span></div>
+              <figcaption><span class="team-name">9m</span><span class="team-role">實習小幫手</span></figcaption>
+            </figure>
+            <figure class="team-card reveal" data-skin="yy114">
+              <div class="team-stage"><canvas class="team-skin" width="220" height="300" aria-label="YY 的 Minecraft 角色 3D 模型" role="img"></canvas><span class="team-plinth" aria-hidden="true"></span><span class="team-fallback" aria-hidden="true">Y</span></div>
+              <figcaption><span class="team-name">YY</span><span class="team-role">實習小幫手</span></figcaption>
+            </figure>
+          </div>
+        </div>
+        </div>
+        <p class="team-hint">拖曳角色可旋轉視角</p>
+        <a href="#join" class="next-page" data-page-link>
+          <span class="next-label">繼續深入 · NEXT LAYER</span>
+          <span class="next-title">如何成為小石頭</span>
+          <span class="next-y">Y 16 <svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM0 3h5v1h-5zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== JOIN ===================== -->
+    <section class="page section" id="join" data-title="如何加入 | 磐石伺服器" data-y="16" data-layer="石層" data-layer-en="STONE">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">04</span><span class="page-of">/ 10</span><span class="page-eyebrow">THE TRIAL</span></p>
+          <h2 class="page-title" data-split tabindex="-1">如何成為小石頭</h2>
+          <p class="page-lede">通過我的考驗，成為磐石的一份子</p>
+        </header>
+
+        <div class="join-intro reveal">
+          <blockquote>在你的前方有一個深邃的礦坑，這是一條通往我國度的路，看起來危險而陡峭。但親愛的孩子，請相信路途終會變得光明順遂。<br>你準備好接受我的考驗了嗎？</blockquote>
+          <p>在踏上旅程之前，請先閱讀<a href="#rules" data-page-link>磐石律法</a>並同意每一條規則呦。</p>
+        </div>
+
+        <div class="join-cols">
+          <div class="join-col">
+            <h3 class="col-title"><span class="col-kicker">PART I</span>面試制</h3>
+            <p class="col-desc">磐石伺服器採用驗證碼門禁系統，使用自家工程師開發的 <a href="https://github.com/rock-mc/Syn" target="_blank" rel="noopener">Syn</a> 工具。</p>
+            <ol class="steps">
+              <li class="step reveal">
+                <span class="step-no">01</span>
+                <div class="step-body">
+                  <h4>加入 Discord</h4>
+                  <p>前往我們的 <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener">Discord 伺服器</a>，這是一切的起點。</p>
+                </div>
+              </li>
+              <li class="step reveal">
+                <span class="step-no">02</span>
+                <div class="step-body">
+                  <h4>填寫表單</h4>
+                  <p>至 Discord 新人頻道填寫表單。</p>
+                </div>
+              </li>
+              <li class="step reveal">
+                <span class="step-no">03</span>
+                <div class="step-body">
+                  <h4>點選面試窗口</h4>
+                  <p>點選新人面試窗口，靜待小幫手面試。</p>
+                </div>
+              </li>
+              <li class="step reveal">
+                <span class="step-no">04</span>
+                <div class="step-body">
+                  <h4>參加面試</h4>
+                  <p>管理群一起面試。面試時請注意，你的 ID、大頭貼、簡介、說的任何話甚至態度都會決定面試的結果。</p>
+                </div>
+              </li>
+              <li class="step reveal">
+                <span class="step-no">05</span>
+                <div class="step-body">
+                  <h4>取得驗證碼</h4>
+                  <p>通過後取得驗證碼，輸入驗證碼並按勾勾確認，請妥善保存。</p>
+                </div>
+              </li>
+            </ol>
+            <p class="note note-warn reveal"><svg class="px" viewBox="0 0 9 8" width="9" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d8412f" d="M4 0h1v1h-1zM3 1h3v1h-3zM3 2h1v1h-1zM5 2h1v1h-1zM2 3h2v1h-2zM5 3h2v1h-2zM2 4h2v1h-2zM5 4h2v1h-2zM1 5h7v1h-7zM1 6h3v1h-3zM5 6h3v1h-3zM0 7h9v1h-9z"/><path fill="#efe6d2" d="M4 2h1v1h-1zM4 3h1v1h-1zM4 4h1v1h-1zM4 6h1v1h-1z"/></svg><span>連續標記 @小幫手 或私訊小幫手催促者，不予面試。</span></p>
+          </div>
+
+          <div class="join-col">
+            <h3 class="col-title"><span class="col-kicker">PART II</span>開始遊戲</h3>
+            <p class="col-desc">通過考驗後，帶著驗證碼踏入磐石大地。</p>
+            <ol class="steps">
+              <li class="step reveal">
+                <span class="step-no">01</span>
+                <div class="step-body">
+                  <h4>新增多人遊戲伺服器</h4>
+                  <p>在 Minecraft 中選擇多人遊戲，新增伺服器。</p>
+                </div>
+              </li>
+              <li class="step reveal">
+                <span class="step-no">02</span>
+                <div class="step-body">
+                  <h4>輸入伺服器位址</h4>
+                  <p><strong>Java 版：</strong><button type="button" class="code-copy" data-copy="minecraft.rock-mc.com">minecraft.rock-mc.com</button><br>
+                     <strong>Bedrock 版：</strong><button type="button" class="code-copy" data-copy="bedrock.rock-mc.com">bedrock.rock-mc.com</button>，埠號 <button type="button" class="code-copy" data-copy="19132">19132</button></p>
+                </div>
+              </li>
+              <li class="step reveal">
+                <span class="step-no">03</span>
+                <div class="step-body">
+                  <h4>進入伺服器並驗證</h4>
+                  <p>進入後暫時無法移動與聊天，請輸入驗證指令：<button type="button" class="code-copy" data-copy="/syn verify ">/syn verify 你的驗證碼</button></p>
+                </div>
+              </li>
+              <li class="step reveal">
+                <span class="step-no">04</span>
+                <div class="step-body">
+                  <h4>綁定 Discord（選用）</h4>
+                  <p>在遊戲中輸入 <button type="button" class="code-copy" data-copy="/discord link">/discord link</button> 取得驗證碼，提交至磐石女神完成綁定，可取得更多權限。</p>
+                </div>
+              </li>
+            </ol>
+            <p class="note reveal"><svg class="px" viewBox="0 0 7 6" width="7" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M6 0h1v1h-1zM5 1h2v1h-2zM0 2h1v1h-1zM4 2h2v1h-2zM0 3h2v1h-2zM3 3h2v1h-2zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg><span><strong>注意：</strong>需要正版 Minecraft 帳號，伺服器會進行帳號驗證。</span></p>
+          </div>
+        </div>
+        <a href="#features" class="next-page" data-page-link>
+          <span class="next-label">繼續深入 · NEXT LAYER</span>
+          <span class="next-title">小石頭須知</span>
+          <span class="next-y">Y 0 <svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM0 3h5v1h-5zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== FEATURES ===================== -->
+    <section class="page section" id="features" data-title="小石頭須知 | 磐石伺服器" data-y="0" data-layer="石層" data-layer-en="STONE">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">05</span><span class="page-of">/ 10</span><span class="page-eyebrow">FIELD GUIDE</span></p>
+          <h2 class="page-title" data-split tabindex="-1">小石頭須知</h2>
+          <p class="page-lede">踏入磐石後，你需要知道的一切</p>
+        </header>
+
+        <div class="guide-grid">
+          <article class="guide reveal">
+            <span class="guide-ico"><svg class="px" viewBox="0 0 10 8" width="10" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#5fa83a" d="M3 0h4v1h-4zM1 1h2v1h-2zM7 1h2v1h-2zM1 2h1v1h-1zM8 2h1v1h-1zM0 3h1v1h-1zM9 3h1v1h-1zM0 4h1v1h-1zM9 4h1v1h-1zM1 5h1v1h-1zM8 5h1v1h-1zM1 6h2v1h-2zM7 6h2v1h-2zM3 7h4v1h-4z"/><path fill="#d9ae4a" d="M4 2h2v1h-2zM3 3h1v1h-1zM6 3h1v1h-1zM3 4h1v1h-1zM6 4h1v1h-1zM4 5h2v1h-2z"/><path fill="#f6d77a" d="M4 3h2v1h-2zM4 4h2v1h-2z"/></svg></span>
+            <h3>出生點保護區</h3>
+            <p>伺服器設置了半徑約 1000 格的保護區，以維持原始地貌，避免資深玩家在出生點附近佔用資源。玩家需跑到保護區外才可以破壞方塊，也可使用隨機傳送功能選擇起點。</p>
+          </article>
+          <article class="guide reveal">
+            <span class="guide-ico"><svg class="px" viewBox="0 0 10 7" width="10" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#3fcfbd" d="M0 0h6v1h-6zM0 1h1v1h-1zM5 1h1v1h-1zM0 2h1v1h-1zM0 3h1v1h-1zM5 3h1v1h-1zM0 4h4v1h-4zM5 4h1v1h-1z"/><path fill="#d9ae4a" d="M3 2h6v1h-6zM3 3h1v1h-1zM8 3h1v1h-1zM4 4h1v1h-1zM8 4h1v1h-1zM3 5h1v1h-1zM8 5h1v1h-1zM3 6h6v1h-6z"/></svg></span>
+            <h3>Discord 綁定</h3>
+            <p>在遊戲中執行 <button type="button" class="code-copy" data-copy="/discord link">/discord link</button> 取得驗證碼，提交至磐石女神即可完成綁定，取得更多權限。</p>
+          </article>
+          <article class="guide reveal">
+            <span class="guide-ico"><svg class="px" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#c9c5bb" d="M1 0h2v1h-2zM1 1h2v1h-2zM0 2h4v1h-4zM0 3h4v1h-4zM1 4h2v1h-2zM1 5h1v1h-1zM3 5h1v1h-1z"/><path fill="#d9ae4a" d="M7 0h2v1h-2zM7 1h2v1h-2zM6 2h4v1h-4zM6 3h4v1h-4zM7 4h2v1h-2zM7 5h1v1h-1zM9 5h1v1h-1z"/></svg></span>
+            <h3>邀請好友</h3>
+            <p>已入伺的玩家可以提供 Discord 連結邀請朋友，有填寫朋友 ID 或暱稱可以透過認識加速管理面試流程。</p>
+          </article>
+          <article class="guide reveal">
+            <span class="guide-ico"><svg class="px" viewBox="0 0 10 9" width="10" height="9" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#c9c5bb" d="M1 0h4v1h-4zM0 1h1v1h-1zM5 1h1v1h-1zM0 2h1v1h-1zM5 2h1v1h-1zM0 3h1v1h-1zM5 3h1v1h-1zM0 4h1v1h-1zM5 4h1v1h-1zM1 5h4v1h-4z"/><path fill="#a8fff2" d="M2 2h2v1h-2zM2 3h1v1h-1z"/><path fill="#8a5a2b" d="M5 5h1v1h-1zM5 6h2v1h-2zM6 7h2v1h-2zM7 8h2v1h-2z"/></svg></span>
+            <h3>方塊紀錄查詢</h3>
+            <p>使用 <button type="button" class="code-copy" data-copy="/co i">/co i</button> 開啟查詢模式，檢查可疑的破壞或盜竊行為，截圖給管理員。查詢過後記得還要再一次 <button type="button" class="code-copy" data-copy="/co i">/co i</button> 關閉查詢功能。</p>
+          </article>
+        </div>
+
+        <div class="cmd-book reveal">
+          <div class="cmd-head">
+            <h3 class="col-title"><span class="col-kicker">COMMANDS</span>指令系統</h3>
+            <p class="cmd-hint">點擊指令即可複製</p>
+          </div>
+
+          <div class="cmd-group">
+            <h4>基本</h4>
+            <ul class="cmd-list">
+              <li><button type="button" class="cmd" data-copy="/warp spawn"><code>/warp spawn</code></button><span>回到出生點</span></li>
+            </ul>
+          </div>
+          <div class="cmd-group">
+            <h4>傳送系統<small>冷卻 5 分鐘，與 home 共用</small></h4>
+            <ul class="cmd-list">
+              <li><button type="button" class="cmd" data-copy="/tpa "><code>/tpa &lt;玩家ID&gt;</code></button><span>請求傳送至其他玩家</span></li>
+              <li><button type="button" class="cmd" data-copy="/tpaccept "><code>/tpaccept &lt;玩家ID&gt;</code></button><span>同意傳送請求</span></li>
+              <li><button type="button" class="cmd" data-copy="/tpdeny"><code>/tpdeny</code></button><span>拒絕傳送請求</span></li>
+              <li><button type="button" class="cmd" data-copy="/tptoggle "><code>/tptoggle &lt;玩家ID&gt;</code></button><span>開關特定玩家的傳送權限</span></li>
+            </ul>
+          </div>
+          <div class="cmd-group">
+            <h4>據點系統<small>最多 3 個傳送點</small></h4>
+            <ul class="cmd-list">
+              <li><button type="button" class="cmd" data-copy="/sethome "><code>/sethome [名稱]</code></button><span>設置回家點</span></li>
+              <li><button type="button" class="cmd" data-copy="/home "><code>/home [名稱]</code></button><span>傳送至設置的回家點</span></li>
+              <li><button type="button" class="cmd" data-copy="/delhome "><code>/delhome [名稱]</code></button><span>刪除回家點</span></li>
+            </ul>
+          </div>
+          <div class="cmd-group">
+            <h4>告示牌上鎖系統</h4>
+            <ul class="cmd-list">
+              <li><button type="button" class="cmd" data-copy="/blocklocker "><code>/blocklocker &lt;行數&gt; &lt;參數&gt;</code></button><span>鎖定箱子、熔爐、門等容器</span></li>
+              <li><button type="button" class="cmd" data-copy="/bl "><code>/bl &lt;行數&gt; &lt;參數&gt;</code></button><span>簡寫，功能同上</span></li>
+            </ul>
+            <p class="cmd-detail">可用參數：玩家ID、<code>[timer:秒數]</code>、<code>[everyone]</code>、<code>[Redstone]</code></p>
+          </div>
+          <div class="cmd-group">
+            <h4>其他</h4>
+            <ul class="cmd-list">
+              <li><span class="cmd-pair"><button type="button" class="cmd" data-copy="/co i"><code>/co i</code></button><span class="cmd-or">或</span><button type="button" class="cmd" data-copy="/core inspect"><code>/core inspect</code></button></span><span>開關方塊查詢模式</span></li>
+              <li><button type="button" class="cmd" data-copy="/fly"><code>/fly</code></button><span>開關飛行模式（需於商城購買）</span></li>
+            </ul>
+          </div>
+        </div>
+        <a href="#rules" class="next-page" data-page-link>
+          <span class="next-label">繼續深入 · NEXT LAYER</span>
+          <span class="next-title">磐石律法</span>
+          <span class="next-y">Y -16 <svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM0 3h5v1h-5zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== RULES ===================== -->
+    <section class="page section" id="rules" data-title="磐石律法 | 磐石伺服器" data-y="-16" data-layer="深板岩" data-layer-en="DEEPSLATE">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">06</span><span class="page-of">/ 10</span><span class="page-eyebrow">THE LAW OF ROCK</span></p>
+          <h2 class="page-title" data-split tabindex="-1">磐石律法</h2>
+          <p class="page-lede">維護和諧社群的基本規範</p>
+        </header>
+
+        <div class="preamble reveal">
+          <p>做任何決定前，應先設身處地、將心比心為其他人著想。請勿謠傳錯誤規定或扭曲釋義。如有任何重大情事，不排除以刑法第359條或其餘相關條例提告。若對新發布或既定規定有發現錯誤或異議者，請至意見信箱申訴或回覆，請勿私訊管理員。</p>
+        </div>
+
+        <div class="law">
+          <aside class="law-toc" aria-label="律法章節">
+            <div class="law-search">
+              <svg class="px" viewBox="0 0 7 7" width="7" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h3v1h-3zM0 1h1v1h-1zM4 1h1v1h-1zM0 2h1v1h-1zM4 2h1v1h-1zM0 3h1v1h-1zM4 3h1v1h-1zM1 4h4v1h-4zM4 5h2v1h-2zM5 6h2v1h-2z"/></svg>
+              <label class="sr-only" for="lawSearch">搜尋律法條文</label>
+              <input id="lawSearch" type="search" placeholder="搜尋條文，例如：刑期" autocomplete="off" spellcheck="false">
+              <kbd aria-hidden="true">/</kbd>
+            </div>
+            <p class="law-count" id="lawCount" aria-live="polite"></p>
+            <ol class="toc" id="lawToc">
+              <li><a href="#law-1" data-toc>一、面試</a></li>
+              <li><a href="#law-2" data-toc>二、檢舉</a></li>
+              <li><a href="#law-3" data-toc>三、所有權</a></li>
+              <li><a href="#law-4" data-toc class="toc-severe">四、重大情節</a></li>
+              <li><a href="#law-5" data-toc>五、言行舉止</a></li>
+              <li><a href="#law-6" data-toc>六、生物保護</a></li>
+              <li><a href="#law-7" data-toc>七、法院罰則</a></li>
+              <li><a href="#law-8" data-toc>八、受刑人權益</a></li>
+              <li class="toc-sep">磐石建築法</li>
+              <li><a href="#build-1" data-toc>一、玩家建築</a></li>
+              <li><a href="#build-2" data-toc>二、公共建築</a></li>
+            </ol>
+          </aside>
+
+          <div class="law-body" id="lawBody">
+            <article class="chapter" id="law-1">
+              <h3><span class="ch-no">壹</span>一、面試</h3>
+              <p class="ch-desc">進入伺服器前，請先經過管理員文字面試審核，為的是保障已在伺服器內的玩家安寧舒適的空間，希望面試者可以好好看規則，填妥問卷後耐心等待。面試審核著重綜合表現，無固定標準分數。</p>
+              <ul>
+                <li><span class="art">1-1</span>對話態度或用詞不佳者不予錄用</li>
+                <li><span class="art">1-2</span>不雅名稱、簡介及頭像（含遊戲ID、Discord 暱稱/ID、Skin）者不予錄用</li>
+                <li><span class="art">1-3</span>催促管理員者不予錄用（私訊問題應用意見信箱）</li>
+              </ul>
+            </article>
+
+            <article class="chapter" id="law-2">
+              <h3><span class="ch-no">貳</span>二、檢舉</h3>
+              <p class="ch-desc">若在伺服器遇到玩家不當行為，可以採取檢舉途徑，於 Discord 的常駐資訊內有檢舉表單可填寫，但勿故意引起事端，玩家之間的爭執請盡量於檢舉前互相協調。官方一般不會但視嚴重性介入，若官方介入下，據了解後可能得以雙方皆懲處。當然若管理者濫用職權或行為不當也請向伺服主私訊回報。開庭採公開方式。</p>
+              <ul>
+                <li><span class="art">2-1</span>期限：追溯期限為檢舉日至上上個月同日 00:00 之後</li>
+                <li><span class="art">2-2</span>責任：保護個人帳號安全是個人的責任，被盜帳號、被親友使用造成的犯罪行為係屬角色為主，若說詞為他人使用，例無寬貸</li>
+                <li><span class="art">2-3</span>誣告：若查無不法，因誣告，檢舉人須道歉及 14 天刑期。未道歉者或若經查證屬累犯則踢出伺服器</li>
+              </ul>
+            </article>
+
+            <article class="chapter" id="law-3">
+              <h3><span class="ch-no">參</span>三、所有權</h3>
+              <p class="ch-sub">物品</p>
+              <ul>
+                <li><span class="art">3-1-1</span>容器內物品以放置者為主</li>
+                <li><span class="art">3-1-2</span>盔甲座/展示框上之物品同上</li>
+                <li><span class="art">3-1-3</span>受刑/受審中不可動他人物品；被踢出者物品歸官方</li>
+              </ul>
+              <p class="ch-sub">建築</p>
+              <ul>
+                <li><span class="art">3-2-1</span>公設屬官方，建築者保有修改權</li>
+                <li><span class="art">3-2-2</span>共同建築優先序：先建者 &gt; 紅石/傳送門 &gt; 大量建築者</li>
+                <li><span class="art">3-2-3</span>私人建築距他人 500 格以上</li>
+                <li><span class="art">3-2-4</span>被踢出者建築可詢官方取用</li>
+                <li><span class="art">3-2-5</span>受刑/受審中不可動他人建築</li>
+              </ul>
+              <p class="ch-sub">生物</p>
+              <ul>
+                <li><span class="art">3-3-1</span>私人範圍內（牽繩/船/礦車/圍欄/建築內）之生物歸所有者</li>
+              </ul>
+            </article>
+
+            <article class="chapter chapter-severe" id="law-4">
+              <h3><span class="ch-no">肆</span>四、重大情節</h3>
+              <p class="ch-desc">下列行為為重大犯行：</p>
+              <ul>
+                <li><span class="art">4-1</span>使用不當外掛（飛行、透視、自動挖礦/釣魚/刷怪等）— 直接踢出，免審</li>
+                <li><span class="art">4-2</span>利用漏洞取得不符規定物件 — 銷毀 + 一週刑期；再犯可踢出；已交易併詐騙踢出</li>
+                <li><span class="art">4-3</span>竊取或毀損物品（須自行鎖箱）：冒名改告示牌 = 詐騙｜殺人撿物 = 竊取｜直接/間接毀損 = 毀損。初犯歸還 + 道歉 + 警告；累犯可踢出</li>
+                <li><span class="art">4-4</span>詐騙行為（冒用身分、交易詐騙、誘拐、誘導偷竊）— 管理員判斷是否踢出，免審</li>
+                <li><span class="art">4-5</span>擅改他人作品 — 輕微：方塊數 × 6 小時刑期；嚴重（紅石/音階）：踢出</li>
+              </ul>
+            </article>
+
+            <article class="chapter" id="law-5">
+              <h3><span class="ch-no">伍</span>五、言行舉止</h3>
+              <ul>
+                <li><span class="art">5-1</span>不當言論（髒話/歧視/貶低/仇恨/地獄梗/騷擾/釣魚等）：言論自由應建立在不讓他人不自在、不舒服為前提之下，為維護良善聊天環境，請勿於公開聊天頻道洗頻或口無遮攔。洗頻 → 警告 + 禁言 1hr，二次禁言 1 天｜非針對性 → 警告 + 禁言 1hr，二次字數 × 2hr（強辯者字數 × 天數）｜針對性 → 需道歉，不道歉/累犯可踢出｜歧視性 → 可直接踢出</li>
+                <li><span class="art">5-2</span>不雅名稱、頭像、簡介、造型或冒用原創 Skin：任何出現在伺服器的事物，請勿違反社會善良風俗、造成他人反感或不適 — 禁遊戲 + 禁言，24hr 未改可踢出</li>
+                <li><span class="art">5-3</span>未經對方同意 PVP、殺戮：包含但不限於打死、炸死、淹死、燒死等（若擅闖他人領域誤觸陷阱不在此範圍內）— 道歉 + 1 天刑期；累犯可踢出</li>
+                <li><span class="art">5-4</span>行為騷擾：明顯影響其他玩家的騷擾行為，包含跟蹤、重複發送指令予其他玩家、未經同意對其使用紅石、液體方塊等方式惡作劇等 — 道歉 + 1 天刑期；累犯可踢出</li>
+                <li><span class="art">5-5</span>協力犯罪：助長或協力犯罪者與犯罪者同罪論。使用小號轉移或是利用小號轉移給本帳者，經查證論同罪處理</li>
+              </ul>
+            </article>
+
+            <article class="chapter" id="law-6">
+              <h3><span class="ch-no">陸</span>六、生物保護</h3>
+              <ul>
+                <li><span class="art">6-1</span>無限制自動/手動繁殖大量生物：如利用機關或特性無限制產生之生物（包含村民、敵對生物），大量且密集集中，可能因生物大量碰撞造成伺服器負擔 — 警告 + 1 日改善；逾期撲殺 + 關繁殖（不補償）；二次 12hr 刑期，往後 ×12hr 遞增</li>
+                <li><span class="art">6-2</span>殺戮玩家擁有生物：玩家擁有生物範圍指玩家圈養生物（牽繩、船、礦車、圍欄、建築內、圍牆內、明顯範圍內等）— 非故意警告 + 復原；刻意/累犯可踢出。命名生物可請管理員復活（無意義命名/待宰除外）</li>
+              </ul>
+            </article>
+
+            <article class="chapter" id="law-7">
+              <h3><span class="ch-no">柒</span>七、法院罰則</h3>
+              <p class="ch-desc">若於開庭中有以下情節，則得以開罰（陳述過程中用詞不算）：</p>
+              <ul>
+                <li><span class="art">7-1</span>對任一方（含審判方）口出惡言、人身攻擊及類似之行為 — 字數 × 2 天</li>
+                <li><span class="art">7-2</span>被檢舉人不承認犯行，但經查詢後發現被檢舉人說謊時 — 14 天</li>
+                <li><span class="art">7-3</span>同理，若被檢舉人不承認犯行時，經查詢發現檢舉人說謊時 — 14 天</li>
+                <li><span class="art">7-4</span>就事論事，勿翻舊帳或答非所問 — 警告 2 次後每次 +1 天</li>
+                <li><span class="art">7-5</span>若被檢舉人未到案說明或無意討論（如無意義回答及洗頻）— 直接處分不得抗告</li>
+                <li><span class="art">7-6</span>如檢舉人/被檢舉人無故 24 小時內無加入討論 — 雙方可罰 14 天</li>
+              </ul>
+            </article>
+
+            <article class="chapter" id="law-8">
+              <h3><span class="ch-no">捌</span>八、受刑人權益</h3>
+              <ul>
+                <li><span class="art">8-1</span>受刑期間物品由伺服器保管，不得取用</li>
+                <li><span class="art">8-2</span>受刑人放置於他人箱子之物品歸箱主</li>
+                <li><span class="art">8-3</span>擅取受刑者物品 = 竊盜，直接裁罰</li>
+                <li><span class="art">8-4</span>受刑期間私人設施關閉</li>
+                <li><span class="art">8-5</span>刑滿一月未回 → 官方處置；被踢出 → 建築視情況開放或還原</li>
+                <li><span class="art">8-6</span>受刑人公設收歸伺服器</li>
+              </ul>
+            </article>
+
+            <div class="law-divider">
+              <h3 class="law-sub-title">磐石建築法</h3>
+              <p>以下違反懲罰統一為：警告 + 1 日改善 → 逾期拆除 + 12hr 刑期 → 往後 ×12hr 遞增</p>
+            </div>
+
+            <article class="chapter" id="build-1">
+              <h3><span class="ch-no">壹</span>一、玩家建築</h3>
+              <ul>
+                <li><span class="art">1-1</span>建築距離：為維護伺服器美觀，避免過度開發的視覺及無力感，建築請距離他人建築 500 格以上，並維持兩者建築間之自然地貌。請勿用簡易建築（豆腐屋、直線光源、置物箱或簡易裝飾物）圈大片土地。協調後可縮短距離。檢舉需於建造一週內提出</li>
+                <li><span class="art">1-2</span>公共空間：請勿佔用明顯極少數空間為私用。如終界傳送門入口及出口處、終界折躍門、終界龍祭壇附近空間</li>
+                <li><span class="art">1-3</span>禁止水面路徑，請以坐船方式航行；若有長期需求，請自行於水面上修建橋梁，以維持美觀與船隻航行方便為主</li>
+                <li><span class="art">1-4</span>違反善良風俗之外型或隱喻性建築物</li>
+                <li><span class="art">1-5</span>影響伺服器運行之機關：此類機關包含但不限於大量機關同時運作、巨型紅石、大量生怪塔等造成伺服器負擔之機關</li>
+                <li><span class="art">1-6</span>請勿使用無法調整時間的連閃器（指無法調整時間延遲，由 NOT 閘構成的閃爍器），請多使用中繼器增加時間延遲並加上開關的閃爍器，不使用時可以關閉</li>
+              </ul>
+            </article>
+
+            <article class="chapter" id="build-2">
+              <h3><span class="ch-no">貳</span>二、公共建築</h3>
+              <p class="ch-sub">玩家公共設施公有化</p>
+              <ul>
+                <li>玩家按照官方提供之申請表格，針對公共設施資格提出申請</li>
+                <li>通過官方審核並給予認證標章，即擁有公共設施資格及官方保護</li>
+                <li>在設施認證為公設的狀況下，若伺服器有轉移需求時，公設可不在個人額度內，惟公設申請移轉後，新的移轉地點需由申請人在期限內自行尋找</li>
+                <li>每位玩家都能幫忙監督是否有人破壞公共設施，若發現破壞之情事，可至意見信箱通報管理員</li>
+                <li>若出現公設破壞之情事，官方可直接依服規裁罰，無需開庭</li>
+                <li>原建造者仍可保有修正或新增功能之權力</li>
+              </ul>
+              <p class="ch-sub">公設認定標準及門檻</p>
+              <ul>
+                <li>不可限定使用者，應開放予全體玩家使用</li>
+                <li>若有搬移需求時，搬移物件內不含動物/生怪磚/村民（例：羊毛機、皮革塔、鐵人塔）</li>
+                <li>需依靠特定生態域所產生的特定資源，或不需特定生態域但能產出限定且較稀有資源（例：自動紫水晶機）</li>
+              </ul>
+            </article>
+
+            <p class="law-empty" id="lawEmpty" hidden>找不到符合的條文，換個關鍵字試試。</p>
+            <p class="law-foot">所有規則將視情況補充調整。違反者，將由幹部群視違反程度決定罰則內容。</p>
+          </div>
+        </div>
+        <a href="#store" class="next-page" data-page-link>
+          <span class="next-label">繼續深入 · NEXT LAYER</span>
+          <span class="next-title">磐石商城</span>
+          <span class="next-y">Y -32 <svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM0 3h5v1h-5zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== STORE ===================== -->
+    <section class="page section" id="store" data-title="磐石商城 | 磐石伺服器" data-y="-32" data-layer="深板岩" data-layer-en="DEEPSLATE">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">07</span><span class="page-of">/ 10</span><span class="page-eyebrow">THE TRADER</span></p>
+          <h2 class="page-title" data-split tabindex="-1">磐石商城</h2>
+          <p class="page-lede">使用磐石幣購買遊戲內物品（1 NTD = 1 磐石幣）</p>
+        </header>
+
+        <div class="disclaimer reveal">
+          <h3><svg class="px" viewBox="0 0 9 8" width="9" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d8412f" d="M4 0h1v1h-1zM3 1h3v1h-3zM3 2h1v1h-1zM5 2h1v1h-1zM2 3h2v1h-2zM5 3h2v1h-2zM2 4h2v1h-2zM5 4h2v1h-2zM1 5h7v1h-7zM1 6h3v1h-3zM5 6h3v1h-3zM0 7h9v1h-9z"/><path fill="#efe6d2" d="M4 2h1v1h-1zM4 3h1v1h-1zM4 4h1v1h-1zM4 6h1v1h-1z"/></svg>使用者宣告</h3>
+          <ul>
+            <li>使用磐石商城即代表您已閱讀並同意遵守磐石伺服器的所有規則</li>
+            <li>未滿 18 歲者需經監護人同意</li>
+            <li>虛擬道具一經售出，不提供退款、退貨或換貨服務</li>
+            <li>請妥善保護您的帳號安全</li>
+            <li>因遊戲更新或伺服器調整造成的影響，恕不負責</li>
+          </ul>
+        </div>
+
+        <div class="shop">
+          <section class="shelf reveal" aria-labelledby="shelf-1">
+            <h3 id="shelf-1"><span class="shelf-ico"><svg class="px" viewBox="0 0 9 7" width="9" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#f6d77a" d="M4 0h1v1h-1zM3 1h3v1h-3zM0 2h8v1h-8zM1 3h6v1h-6zM2 4h4v1h-4zM1 5h2v1h-2zM5 5h2v1h-2zM0 6h1v1h-1zM7 6h1v1h-1z"/><path fill="#d9ae4a" d="M8 2h1v1h-1zM7 3h1v1h-1zM6 4h1v1h-1zM3 5h1v1h-1zM7 5h1v1h-1zM1 6h1v1h-1zM8 6h1v1h-1z"/></svg></span>特殊道具</h3>
+            <ul class="ledger">
+              <li><span class="item">透明展示框 x8</span><span class="dots"></span><span class="price">50<small>幣</small></span></li>
+              <li><span class="item">個人頭顱 x1</span><span class="dots"></span><span class="price">200<small>幣</small></span></li>
+            </ul>
+          </section>
+          <section class="shelf reveal" aria-labelledby="shelf-2">
+            <h3 id="shelf-2"><span class="shelf-ico"><svg class="px" viewBox="0 0 10 4" width="10" height="4" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#c9c5bb" d="M2 0h7v1h-7zM1 1h1v1h-1zM7 1h1v1h-1zM0 2h1v1h-1zM6 2h1v1h-1z"/><path fill="#efe6d2" d="M2 1h5v1h-5zM1 2h5v1h-5z"/><path fill="#8d8a83" d="M8 1h1v1h-1zM7 2h2v1h-2zM0 3h8v1h-8z"/></svg></span>建築材料</h3>
+            <ul class="ledger">
+              <li><span class="item">鐵錠 x1組</span><span class="dots"></span><span class="price">30<small>幣</small></span></li>
+              <li><span class="item">黃金錠 x1組</span><span class="dots"></span><span class="price">50<small>幣</small></span></li>
+              <li><span class="item">紅石粉 x1組</span><span class="dots"></span><span class="price">50<small>幣</small></span></li>
+              <li><span class="item">鑽石 x1組</span><span class="dots"></span><span class="price">200<small>幣</small></span></li>
+              <li><span class="item">獄髓錠 x1</span><span class="dots"></span><span class="price">100<small>幣</small></span></li>
+            </ul>
+          </section>
+          <section class="shelf reveal" aria-labelledby="shelf-3">
+            <h3 id="shelf-3"><span class="shelf-ico"><svg class="px" viewBox="0 0 10 8" width="10" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#3fcfbd" d="M2 0h6v1h-6zM1 1h1v1h-1zM4 1h1v1h-1zM7 1h2v1h-2zM0 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM8 2h1v1h-1zM0 3h10v1h-10zM1 4h1v1h-1zM3 4h5v1h-5zM2 5h1v1h-1zM4 5h3v1h-3zM3 6h1v1h-1zM5 6h1v1h-1zM4 7h1v1h-1z"/><path fill="#a8fff2" d="M2 1h2v1h-2zM5 1h2v1h-2zM1 2h2v1h-2zM4 2h2v1h-2zM7 2h1v1h-1zM2 4h1v1h-1zM3 5h1v1h-1zM4 6h1v1h-1z"/><path fill="#1f8f84" d="M9 2h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM6 6h1v1h-1zM5 7h1v1h-1z"/></svg></span>稀有道具</h3>
+            <ul class="ledger">
+              <li><span class="item">終界水晶 x20</span><span class="dots"></span><span class="price">100<small>幣</small></span></li>
+              <li><span class="item">鞘翅 x1</span><span class="dots"></span><span class="price">200<small>幣</small></span></li>
+              <li><span class="item">鞘翅（保護IV+修補+耐久III）x1</span><span class="dots"></span><span class="price">300<small>幣</small></span></li>
+              <li><span class="item">煙火 x3組</span><span class="dots"></span><span class="price">10<small>幣</small></span></li>
+              <li><span class="item">重鎚 x1</span><span class="dots"></span><span class="price">300<small>幣</small></span></li>
+            </ul>
+          </section>
+          <section class="shelf reveal" aria-labelledby="shelf-4">
+            <h3 id="shelf-4"><span class="shelf-ico"><svg class="px" viewBox="0 0 8 7" width="8" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#8a5a2b" d="M3 0h2v1h-2z"/><path fill="#c9c5bb" d="M3 1h2v1h-2zM2 2h1v1h-1zM5 2h1v1h-1zM1 3h1v1h-1zM6 3h1v1h-1zM1 4h1v1h-1zM6 4h1v1h-1zM1 5h1v1h-1zM6 5h1v1h-1zM2 6h4v1h-4z"/><path fill="#5fa83a" d="M3 2h2v1h-2zM2 3h1v1h-1zM4 3h2v1h-2zM2 4h4v1h-4zM2 5h4v1h-4z"/><path fill="#a6e36a" d="M3 3h1v1h-1z"/></svg></span>經驗值</h3>
+            <ul class="ledger">
+              <li><span class="item">附魔之瓶 x1組</span><span class="dots"></span><span class="price">100<small>幣</small></span></li>
+            </ul>
+          </section>
+          <section class="shelf reveal" aria-labelledby="shelf-5">
+            <h3 id="shelf-5"><span class="shelf-ico"><svg class="px" viewBox="0 0 9 8" width="9" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#efe6d2" d="M2 0h1v1h-1zM6 0h1v1h-1zM1 1h2v1h-2zM6 1h2v1h-2zM0 2h1v1h-1zM8 2h1v1h-1zM0 3h2v1h-2zM3 3h3v1h-3zM7 3h2v1h-2zM2 4h5v1h-5zM1 5h7v1h-7zM1 6h7v1h-7zM2 7h2v1h-2zM5 7h2v1h-2z"/></svg></span>寵物</h3>
+            <ul class="ledger">
+              <li><span class="item">藍色六角恐龍 x1</span><span class="dots"></span><span class="price">200<small>幣</small></span></li>
+              <li><span class="item">山貓 x1</span><span class="dots"></span><span class="price">200<small>幣</small></span></li>
+              <li><span class="item">遠古乕衛兵 x1</span><span class="dots"></span><span class="price">300<small>幣</small></span></li>
+              <li><span class="item">乕界幽靈 x1</span><span class="dots"></span><span class="price">300<small>幣</small></span></li>
+            </ul>
+          </section>
+          <section class="shelf reveal" aria-labelledby="shelf-6">
+            <h3 id="shelf-6"><span class="shelf-ico"><svg class="px" viewBox="0 0 10 5" width="10" height="5" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#8a5a2b" d="M2 0h8v1h-8zM1 1h1v1h-1zM0 2h1v1h-1zM9 2h1v1h-1zM1 3h1v1h-1zM2 4h8v1h-8z"/><path fill="#efe6d2" d="M2 1h8v1h-8zM2 2h2v1h-2zM8 2h1v1h-1zM2 3h8v1h-8z"/><path fill="#3a3631" d="M1 2h1v1h-1z"/><path fill="#c9c5bb" d="M4 2h4v1h-4z"/></svg></span>個人化</h3>
+            <ul class="ledger">
+              <li><span class="item">自訂暱稱</span><span class="dots"></span><span class="price">100<small>幣/次</small></span></li>
+              <li><span class="item">自訂進場訊息</span><span class="dots"></span><span class="price">100<small>幣/次</small></span></li>
+            </ul>
+          </section>
+          <section class="shelf reveal" aria-labelledby="shelf-7">
+            <h3 id="shelf-7"><span class="shelf-ico"><svg class="px" viewBox="0 0 10 7" width="10" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#c9c5bb" d="M0 0h1v1h-1zM9 0h1v1h-1zM0 1h2v1h-2zM8 1h2v1h-2zM0 2h1v1h-1zM2 2h1v1h-1zM7 2h1v1h-1zM9 2h1v1h-1zM0 3h1v1h-1zM3 3h1v1h-1zM6 3h1v1h-1zM9 3h1v1h-1zM0 4h1v1h-1zM4 4h2v1h-2zM9 4h1v1h-1zM1 5h1v1h-1zM4 5h2v1h-2zM8 5h1v1h-1zM2 6h2v1h-2zM6 6h2v1h-2z"/><path fill="#efe6d2" d="M1 2h1v1h-1zM8 2h1v1h-1zM1 3h2v1h-2zM7 3h2v1h-2zM1 4h3v1h-3zM6 4h3v1h-3zM2 5h2v1h-2zM6 5h2v1h-2z"/></svg></span>飛行權限</h3>
+            <ul class="ledger">
+              <li><span class="item">1 天</span><span class="dots"></span><span class="price">50<small>幣</small></span></li>
+              <li><span class="item">3 天</span><span class="dots"></span><span class="price">100<small>幣</small></span></li>
+              <li><span class="item">10 天</span><span class="dots"></span><span class="price">200<small>幣</small></span></li>
+              <li><span class="item">20 天</span><span class="dots"></span><span class="price">300<small>幣</small></span></li>
+              <li><span class="item">40 天</span><span class="dots"></span><span class="price">500<small>幣</small></span></li>
+            </ul>
+          </section>
+          <section class="shelf reveal" aria-labelledby="shelf-8">
+            <h3 id="shelf-8"><span class="shelf-ico"><svg class="px" viewBox="0 0 10 9" width="10" height="9" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d8412f" d="M4 0h2v1h-2zM3 1h1v1h-1zM5 1h2v1h-2zM2 2h1v1h-1zM4 2h4v1h-4zM1 3h1v1h-1zM3 3h6v1h-6zM0 4h9v1h-9z"/><path fill="#ff8a6e" d="M4 1h1v1h-1zM3 2h1v1h-1zM2 3h1v1h-1z"/><path fill="#8f2318" d="M9 4h1v1h-1z"/><path fill="#8a5a2b" d="M1 5h1v1h-1zM4 5h5v1h-5zM1 6h1v1h-1zM4 6h2v1h-2zM7 6h2v1h-2zM1 7h1v1h-1zM4 7h2v1h-2zM7 7h2v1h-2zM1 8h5v1h-5zM7 8h2v1h-2z"/><path fill="#b9824a" d="M2 5h2v1h-2z"/><path fill="#a8fff2" d="M2 6h2v1h-2zM2 7h2v1h-2z"/><path fill="#3a3631" d="M6 6h1v1h-1zM6 7h1v1h-1zM6 8h1v1h-1z"/></svg></span>Home 傳送點</h3>
+            <ul class="ledger">
+              <li><span class="item">+1 個傳送點</span><span class="dots"></span><span class="price">100<small>幣</small></span></li>
+              <li><span class="item">+2 個傳送點</span><span class="dots"></span><span class="price">180<small>幣</small></span></li>
+              <li><span class="item">+4 個傳送點</span><span class="dots"></span><span class="price">350<small>幣</small></span></li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="bonus reveal">
+          <h3 class="col-title"><span class="col-kicker">BONUS</span>磐石幣加贈方案</h3>
+          <table class="bonus-table">
+            <thead>
+              <tr><th scope="col">儲值金額 (NTD)</th><th scope="col">獲得磐石幣</th><th scope="col">加贈</th></tr>
+            </thead>
+            <tbody>
+              <tr style="--b:0"><td>20 ~ 100</td><td>20 ~ 100</td><td><span class="bar"><i></i></span><span class="pct">—</span></td></tr>
+              <tr style="--b:5"><td>300</td><td>315</td><td><span class="bar"><i></i></span><span class="pct">+5%</span></td></tr>
+              <tr style="--b:10"><td>500</td><td>550</td><td><span class="bar"><i></i></span><span class="pct">+10%</span></td></tr>
+              <tr style="--b:15"><td>1,000</td><td>1,150</td><td><span class="bar"><i></i></span><span class="pct">+15%</span></td></tr>
+              <tr style="--b:20"><td>3,000</td><td>3,600</td><td><span class="bar"><i></i></span><span class="pct">+20%</span></td></tr>
+              <tr style="--b:25"><td>5,000</td><td>6,250</td><td><span class="bar"><i></i></span><span class="pct">+25%</span></td></tr>
+              <tr style="--b:30"><td>10,000</td><td>13,000</td><td><span class="bar"><i></i></span><span class="pct">+30%</span></td></tr>
+            </tbody>
+          </table>
+          <p class="store-note"><svg class="px" viewBox="0 0 6 6" width="6" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d9ae4a" d="M1 0h4v1h-4zM0 1h1v1h-1zM3 1h2v1h-2zM0 2h1v1h-1zM2 2h3v1h-3zM0 3h5v1h-5zM0 4h4v1h-4z"/><path fill="#f6d77a" d="M1 1h2v1h-2zM1 2h1v1h-1z"/><path fill="#8a6a22" d="M5 1h1v1h-1zM5 2h1v1h-1zM5 3h1v1h-1zM4 4h2v1h-2zM1 5h4v1h-4z"/></svg>支援 Line Pay 及 PayPal 付款。</p>
+        </div>
+        <a href="#devops" class="next-page" data-page-link>
+          <span class="next-label">繼續深入 · NEXT LAYER</span>
+          <span class="next-title">磐石機器</span>
+          <span class="next-y">Y -44 <svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM0 3h5v1h-5zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== DEVOPS ===================== -->
+    <section class="page section" id="devops" data-title="磐石機器 | 磐石伺服器" data-y="-44" data-layer="深板岩" data-layer-en="DEEPSLATE">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">08</span><span class="page-of">/ 10</span><span class="page-eyebrow">INFRA · DEV · OPS</span></p>
+          <h2 class="page-title" data-split tabindex="-1">磐石機器</h2>
+          <p class="page-lede">Infra &amp; Dev &amp; Ops — 這裡介紹磐石伺服器使用的設備與一些工具</p>
+        </header>
+
+        <article class="syn reveal">
+          <div class="syn-portrait">
+            <img src="assets/syn-portrait.webp" alt="磐石女神 Syn 的肖像" width="480" height="480" loading="lazy" decoding="async">
+          </div>
+          <div class="syn-body">
+            <p class="syn-kicker">THE GODDESS · 守護者</p>
+            <h3>磐石女神 — Syn</h3>
+            <p class="syn-desc">她是我親手鑄造的守護者，溫柔而不失威嚴地凝視著這片大地上的每一位旅人。</p>
+            <ul class="syn-list">
+              <li><strong>驗證之門</strong><span>進入磐石的第一道考驗。只有持有驗證碼的旅人，才能通過她的守護進入世界</span></li>
+              <li><strong>Discord 綁定橋樑</strong><span>透過 <code>/discord link</code> 讓遊戲身份與 Discord 連為一體，取得更深的信任與權限</span></li>
+              <li><strong>溫柔的歡迎</strong><span>每位新旅人踏入磐石時，女神都會親自送上祝福，為他們指引方向、說明世界的規則</span></li>
+              <li><strong>靜默的凝視</strong><span>她記錄著每個人的行跡，無聲地守護著旅人的安全，讓侵擾者無所遁形</span></li>
+              <li><strong>靈活的懲戒</strong><span>管理員可透過女神的力量限制旅人的行動，讓秩序在磐石中安然長存</span></li>
+              <li><strong>多語的呢喃</strong><span>支援繁體中文介面，讓每位旅人都能以最自在的方式聆聽她的聲音</span></li>
+            </ul>
+            <a class="repo" href="https://github.com/rock-mc/Syn" target="_blank" rel="noopener"><span>GitHub — rock-mc/Syn</span><svg class="px" viewBox="0 0 7 7" width="7" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M3 0h4v1h-4zM5 1h2v1h-2zM0 2h3v1h-3zM4 2h1v1h-1zM6 2h1v1h-1zM0 3h1v1h-1zM3 3h1v1h-1zM6 3h1v1h-1zM0 4h1v1h-1zM0 5h1v1h-1zM0 6h5v1h-5z"/></svg></a>
+          </div>
+        </article>
+
+        <div class="ops-grid">
+          <article class="spec reveal">
+            <h3><span class="shelf-ico"><svg class="px" viewBox="0 0 9 8" width="9" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#8d8a83" d="M1 0h1v1h-1zM3 0h1v1h-1zM5 0h1v1h-1zM7 0h1v1h-1zM0 1h9v1h-9zM1 2h1v1h-1zM7 2h1v1h-1zM0 3h2v1h-2zM7 3h2v1h-2zM1 4h1v1h-1zM7 4h1v1h-1zM0 5h2v1h-2zM7 5h2v1h-2zM1 6h7v1h-7zM1 7h1v1h-1zM3 7h1v1h-1zM5 7h1v1h-1zM7 7h1v1h-1z"/><path fill="#3a3631" d="M2 2h5v1h-5zM2 3h1v1h-1zM6 3h1v1h-1zM2 4h1v1h-1zM6 4h1v1h-1zM2 5h5v1h-5z"/><path fill="#d9ae4a" d="M3 3h1v1h-1zM5 3h1v1h-1zM3 4h3v1h-3z"/><path fill="#f6d77a" d="M4 3h1v1h-1z"/></svg></span>伺服器硬體</h3>
+            <dl class="spec-list">
+              <div><dt>處理器</dt><dd>Intel i5-12400</dd></div>
+              <div><dt>記憶體</dt><dd>32GB RAM</dd></div>
+              <div><dt>硬碟</dt><dd>1TB SSD</dd></div>
+              <div><dt>備份</dt><dd>2TB HDD，每天自動備份，一週兩次備份至美國</dd></div>
+              <div><dt>網路</dt><dd>500/500 Mb</dd></div>
+              <div><dt>路由器</dt><dd>MikroTik RB450Gx4</dd></div>
+              <div><dt>資料庫</dt><dd>MySQL（運行於 MSI Cubi N 8GL）</dd></div>
+              <div><dt>UPS</dt><dd>APC Easy UPS BV1000-TW</dd></div>
+            </dl>
+          </article>
+
+          <article class="spec reveal">
+            <h3><span class="shelf-ico"><svg class="px" viewBox="0 0 9 8" width="9" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d9ae4a" d="M4 0h1v1h-1z"/><path fill="#8d8a83" d="M4 1h1v1h-1zM1 2h7v1h-7zM1 3h1v1h-1zM3 3h3v1h-3zM7 3h1v1h-1zM1 4h7v1h-7zM1 5h1v1h-1zM7 5h1v1h-1zM1 6h7v1h-7zM2 7h1v1h-1zM6 7h1v1h-1z"/><path fill="#a8fff2" d="M2 3h1v1h-1zM6 3h1v1h-1z"/><path fill="#3a3631" d="M2 5h5v1h-5z"/></svg></span>維運機器人 — OperationBot</h3>
+            <p class="spec-desc">我們在系統還有伺服器之間，開發了一套機器人來幫助我們維運伺服器，可以幫助我們自動化一些操作：</p>
+            <ul class="term">
+              <li>Lag 時自動重啟伺服器</li>
+              <li>自動備份伺服器</li>
+              <li>伺服器意外關閉時，重新啟動伺服器</li>
+              <li>發送警告訊息到 Discord</li>
+              <li>自動更新 Paper 伺服器程式，自動測試完成之後，就會自動上線運作</li>
+              <li>斷電過後五分鐘，未恢復供電可自動關閉伺服器儲存地圖並關機</li>
+            </ul>
+            <a class="repo" href="https://github.com/rock-mc/OperationBot" target="_blank" rel="noopener"><span>GitHub — rock-mc/OperationBot</span><svg class="px" viewBox="0 0 7 7" width="7" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M3 0h4v1h-4zM5 1h2v1h-2zM0 2h3v1h-3zM4 2h1v1h-1zM6 2h1v1h-1zM0 3h1v1h-1zM3 3h1v1h-1zM6 3h1v1h-1zM0 4h1v1h-1zM0 5h1v1h-1zM0 6h5v1h-5z"/></svg></a>
+          </article>
+        </div>
+        <a href="#history" class="next-page" data-page-link>
+          <span class="next-label">繼續深入 · NEXT LAYER</span>
+          <span class="next-title">磐石歷史</span>
+          <span class="next-y">Y -59 <svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM0 3h5v1h-5zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== HISTORY ===================== -->
+    <section class="page section" id="history" data-title="磐石歷史 | 磐石伺服器" data-y="-59" data-layer="鑽石層" data-layer-en="DIAMOND LEVEL">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">09</span><span class="page-of">/ 10</span><span class="page-eyebrow">CHRONICLE</span></p>
+          <h2 class="page-title" data-split tabindex="-1">磐石歷史</h2>
+          <p class="page-lede">從一個想法，到我守護至今的家</p>
+        </header>
+
+        <div class="strata">
+          <section class="stratum reveal">
+            <h3 class="stratum-year">2026</h3>
+            <ol class="events">
+              <li><time datetime="2026-05-10">05.10</time><div><h4>版本升級</h4><p>升級伺服器版本至 1.21.11。</p></div></li>
+              <li class="ev-major"><time datetime="2026-04-08">04.08</time><div><h4>磐石女神 AI</h4><p>加入磐石女神 AI 模型，為旅人提供更智慧的守護與引導。</p></div></li>
+            </ol>
+          </section>
+          <section class="stratum reveal">
+            <h3 class="stratum-year">2024</h3>
+            <ol class="events">
+              <li class="ev-major"><time datetime="2024-09-29">09.29</time><div><h4>跨平台</h4><p>支援 Bedrock 版本，Java 與基岩版玩家可以一起遊玩。</p></div></li>
+              <li><time datetime="2024-06-29">06.29</time><div><h4>版本躍升</h4><p>升級伺服器版本至 1.21.4。</p></div></li>
+              <li><time datetime="2024-02-04">02.04</time><div><h4>版本升級</h4><p>升級伺服器版本至 1.20.4。</p></div></li>
+            </ol>
+          </section>
+          <section class="stratum reveal">
+            <h3 class="stratum-year">2023</h3>
+            <ol class="events">
+              <li class="ev-major"><time datetime="2023-11-12">11.12</time><div><h4>商城上線</h4><p>推出遊戲內商城系統。</p></div></li>
+              <li><time datetime="2023-09-29">09.29</time><div><h4>版本升級</h4><p>升級伺服器版本至 1.20.2。</p></div></li>
+              <li><time datetime="2023-06-13">06.13</time><div><h4>版本升級</h4><p>升級伺服器版本至 1.20.1。</p></div></li>
+            </ol>
+          </section>
+          <section class="stratum reveal">
+            <h3 class="stratum-year">2022</h3>
+            <ol class="events">
+              <li><time datetime="2022-08-08">08.08</time><div><h4>版本升級</h4><p>升級伺服器版本至 1.19.2。</p></div></li>
+              <li><time datetime="2022-03-21">03.21</time><div><h4>版本升級</h4><p>升級伺服器版本至 1.18.2。</p></div></li>
+              <li class="ev-major"><time datetime="2022-02-06">02.06</time><div><h4>人數紀錄</h4><p>伺服器人數達 32 位玩家同時在線！</p></div></li>
+              <li><time datetime="2022-01-31">01.31</time><div><h4>除夕快閃</h4><p>舉辦除夕快閃活動。</p></div></li>
+              <li class="ev-major"><time datetime="2022-01-13">01.13</time><div><h4>新伺服器上線</h4><p>新伺服器正式上線。</p></div></li>
+            </ol>
+          </section>
+          <section class="stratum reveal">
+            <h3 class="stratum-year">2021</h3>
+            <ol class="events">
+              <li><time datetime="2021-12-26">12.26</time><div><h4>版本升級</h4><p>升級伺服器版本至 1.18.1。</p></div></li>
+              <li><time datetime="2021-12-02">12.02</time><div><h4>硬體危機</h4><p>伺服器硬體出問題，搬到遊戲主機跑。</p></div></li>
+              <li><time datetime="2021-10-06">10.06</time><div><h4>雙十快閃</h4><p>舉辦雙十快閃尋寶活動。</p></div></li>
+              <li class="ev-major"><time datetime="2021-07-04">07.04</time><div><h4>試營運</h4><p>開始試營運。</p></div></li>
+              <li class="ev-origin"><time datetime="2021-02-18">02.18</time><div><h4>萌芽</h4><p>在網路上貼文徵求志同道合的夥伴。</p></div></li>
+            </ol>
+          </section>
+        </div>
+        <a href="#faq" class="next-page" data-page-link>
+          <span class="next-label">繼續深入 · NEXT LAYER</span>
+          <span class="next-title">常見問題</span>
+          <span class="next-y">Y -64 <svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM2 1h1v1h-1zM2 2h1v1h-1zM0 3h5v1h-5zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="page section" id="faq" data-title="常見問題 | 磐石伺服器" data-y="-64" data-layer="基岩" data-layer-en="BEDROCK">
+      <div class="container">
+        <header class="page-head">
+          <p class="page-meta"><span class="page-no">10</span><span class="page-of">/ 10</span><span class="page-eyebrow">ASK THE GODDESS</span></p>
+          <h2 class="page-title" data-split tabindex="-1">常見問題</h2>
+          <p class="page-lede">你已抵達基岩。最後，回答你的疑問。</p>
+        </header>
+
+        <div class="faq">
+          <details class="qa reveal">
+            <summary><span class="qa-q">Q.</span><span class="qa-text">請問可以給我 OP 嗎？</span><span class="qa-icon" aria-hidden="true"></span></summary>
+            <div class="qa-a"><p>親愛的孩子，不可以呦。</p></div>
+          </details>
+          <details class="qa reveal">
+            <summary><span class="qa-q">Q.</span><span class="qa-text">請問可以給我種子碼嗎？</span><span class="qa-icon" aria-hidden="true"></span></summary>
+            <div class="qa-a"><p>不可以呦，我的國度不會透露伺服器設定。</p></div>
+          </details>
+        </div>
+
+        <div class="bedrock-cta reveal">
+          <p class="bedrock-kicker">YOU HAVE REACHED BEDROCK</p>
+          <h3>準備好接受考驗了嗎？</h3>
+          <div class="hero-actions">
+            <a href="#join" class="btn btn-gold" data-page-link><span>加入伺服器</span><svg class="px btn-ico" viewBox="0 0 7 5" width="7" height="5" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M4 0h1v1h-1zM4 1h2v1h-2zM0 2h7v1h-7zM4 3h2v1h-2zM4 4h1v1h-1z"/></svg></a>
+            <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener" class="btn btn-ghost"><svg class="px btn-ico" viewBox="0 0 9 7" width="9" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h7v1h-7zM0 1h9v1h-9zM0 2h2v1h-2zM3 2h1v1h-1zM5 2h1v1h-1zM7 2h2v1h-2zM0 3h9v1h-9zM1 4h7v1h-7zM1 5h2v1h-2zM1 6h1v1h-1z"/></svg><span>Discord 社群</span></a>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
+      <div class="footer-mark" aria-hidden="true">ROCK</div>
       <div class="footer-grid">
         <div class="footer-info">
-          <h3><span class="logo-icon">&#9674;</span> 磐石伺服器</h3>
+          <p class="footer-brand"><svg class="px brand-gem" viewBox="0 0 10 8" width="10" height="8" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="#d9ae4a" d="M2 0h6v1h-6zM1 1h1v1h-1zM4 1h1v1h-1zM7 1h2v1h-2zM0 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM8 2h1v1h-1zM0 3h9v1h-9zM1 4h1v1h-1zM3 4h5v1h-5zM2 5h1v1h-1zM4 5h3v1h-3zM3 6h1v1h-1zM5 6h1v1h-1zM4 7h1v1h-1z"/><path fill="#f6d77a" d="M2 1h2v1h-2zM5 1h2v1h-2zM1 2h2v1h-2zM4 2h2v1h-2zM7 2h1v1h-1zM2 4h1v1h-1zM3 5h1v1h-1zM4 6h1v1h-1z"/><path fill="#8a6a22" d="M9 2h1v1h-1zM9 3h1v1h-1zM8 4h1v1h-1zM7 5h1v1h-1zM6 6h1v1h-1zM5 7h1v1h-1z"/></svg> 磐石伺服器</p>
           <p>原味。生存。面試制</p>
-          <p>Java & Bedrock 1.21.11</p>
+          <p>Java &amp; Bedrock 1.21.11</p>
         </div>
         <div class="footer-links">
-          <h4>快速連結</h4>
+          <h2 class="footer-h">快速連結</h2>
           <ul>
-            <li><a href="#join">加入我們</a></li>
-            <li><a href="#rules">伺服器規範</a></li>
-            <li><a href="#store">磐石商城</a></li>
-            <li><a href="#faq">常見問題</a></li>
+            <li><a href="#join" data-page-link>加入我們</a></li>
+            <li><a href="#rules" data-page-link>伺服器規範</a></li>
+            <li><a href="#store" data-page-link>磐石商城</a></li>
+            <li><a href="#faq" data-page-link>常見問題</a></li>
           </ul>
         </div>
         <div class="footer-connect">
-          <h4>連線資訊</h4>
-          <p><code>minecraft.rock-mc.com</code></p>
-          <p><code>bedrock.rock-mc.com:19132</code></p>
-          <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener" class="footer-discord">加入 Discord</a>
+          <h2 class="footer-h">連線資訊</h2>
+          <p><button type="button" class="code-copy" data-copy="minecraft.rock-mc.com">minecraft.rock-mc.com</button></p>
+          <p><button type="button" class="code-copy" data-copy="bedrock.rock-mc.com:19132">bedrock.rock-mc.com:19132</button></p>
+          <a href="https://discord.gg/mCFdwkChBG" target="_blank" rel="noopener" class="footer-discord"><svg class="px btn-ico" viewBox="0 0 9 7" width="9" height="7" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M1 0h7v1h-7zM0 1h9v1h-9zM0 2h2v1h-2zM3 2h1v1h-1zM5 2h1v1h-1zM7 2h2v1h-2zM0 3h9v1h-9zM1 4h7v1h-7zM1 5h2v1h-2zM1 6h1v1h-1z"/></svg>加入 Discord</a>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 磐石伺服器 Rock MC Server. All rights reserved.</p>
+        <p>&copy; 2021–<span id="year">2026</span> 磐石伺服器 Rock MC Server. All rights reserved.</p>
+        <a href="#hero" class="to-surface" data-page-link><svg class="px" viewBox="0 0 5 6" width="5" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M2 0h1v1h-1zM1 1h3v1h-3zM0 2h5v1h-5zM2 3h1v1h-1zM2 4h1v1h-1zM2 5h1v1h-1z"/></svg>回到地表 · Y 64</a>
       </div>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/skinview3d@3.1.0/bundles/skinview3d.bundle.js"></script>
-  <script src="script.js"></script>
+  <div class="toast" id="toast" role="status" aria-live="polite"><svg class="px" viewBox="0 0 7 6" width="7" height="6" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path fill="currentColor" d="M6 0h1v1h-1zM5 1h2v1h-2zM0 2h1v1h-1zM4 2h2v1h-2zM0 3h2v1h-2zM3 3h2v1h-2zM1 4h3v1h-3zM2 5h1v1h-1z"/></svg><span id="toastText"></span></div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
