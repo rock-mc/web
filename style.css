@@ -427,6 +427,15 @@ main { position: relative; z-index: 2; outline: none; }
 .ip:hover .ip-copy { color: var(--gold-2); }
 .ip.is-copied .ip-copy { color: var(--moss); }
 
+.live-status { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: .8rem; line-height: 1.4; letter-spacing: .04em; color: var(--bone-2); }
+.live-status b { font-family: var(--f-mono); font-weight: 600; color: var(--bone); font-variant-numeric: tabular-nums; }
+.live-dot { position: relative; flex: none; width: 8px; height: 8px; background: var(--bone-3); }
+.live-status[data-state="online"] .live-dot { background: var(--moss); box-shadow: 0 0 10px rgba(140, 193, 82, .7); }
+.live-status[data-state="online"] .live-dot::after { content: ''; position: absolute; inset: 0; background: var(--moss); animation: livePing 1.8s var(--ease-out) infinite; }
+.live-status[data-state="offline"] .live-dot { background: var(--redstone); box-shadow: 0 0 10px rgba(227, 83, 63, .6); }
+.live-status[data-state="error"] { color: var(--bone-3); }
+@keyframes livePing { to { transform: scale(2.6); opacity: 0; } }
+
 .hero-foot {
   position: relative; z-index: 2; width: 100%; max-width: calc(var(--max) + var(--gutter) * 2); margin: 0 auto;
   padding: 0 var(--gutter) clamp(18px, 3vh, 32px); display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
