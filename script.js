@@ -318,6 +318,43 @@
     });
   }
 
+  /* ---------- Live player count ---------- */
+  // Bedrock players join through the Java server, so one query covers both editions.
+  (() => {
+    const box = $('#liveStatus');
+    if (!box) return;
+    const text = $('.live-text', box);
+    const API = 'https://api.mcsrvstat.us/3/minecraft.rock-mc.com';
+    const EVERY = 60000; // the API caches results for about a minute
+    let timer;
+    let last = 0;
+
+    const render = (state, html) => { box.dataset.state = state; text.innerHTML = html; };
+    async function poll() {
+      clearTimeout(timer);
+      last = Date.now();
+      try {
+        const res = await fetch(API, { cache: 'no-store' });
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        if (data.online && data.players) {
+          const { online = 0, max } = data.players;
+          render('online', `伺服器運作中 · 目前 <b>${Number(online)}</b>${max ? ` / ${Number(max)}` : ''} 人在線`);
+        } else {
+          render('offline', '伺服器暫時離線，請稍後再試');
+        }
+      } catch {
+        render('error', '暫時無法取得在線人數');
+      }
+      if (!document.hidden) timer = setTimeout(poll, EVERY);
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) clearTimeout(timer);
+      else timer = setTimeout(poll, Math.max(0, EVERY - (Date.now() - last)));
+    });
+    poll();
+  })();
+
   /* ---------- Copy to clipboard ---------- */
   const toast = $('#toast');
   const toastText = $('#toastText');
